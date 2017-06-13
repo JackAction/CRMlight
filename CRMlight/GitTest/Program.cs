@@ -8,10 +8,9 @@ namespace GitTest
 {
     class Program
     {
-        // test Fabian
         static void Main(string[] args)
         {
-            // Test von Theo
+            // Test2 Merge
         }
     }
 }
