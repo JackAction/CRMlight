@@ -8,6 +8,7 @@ namespace GitTest
 {
     class Program
     {
+        // test Thomas
         static void Main(string[] args)
         {
         }
