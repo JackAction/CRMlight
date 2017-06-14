@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMLight", "CRMLight\CRMLight.csproj", "{19BBB78F-6D8C-487F-AF71-CC1A1DF74F5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVVM_Framework", "MVVM_Framework\MVVM_Framework.csproj", "{B6FC142C-CA9B-46FA-AC14-B1AA5CF3473E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{19BBB78F-6D8C-487F-AF71-CC1A1DF74F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19BBB78F-6D8C-487F-AF71-CC1A1DF74F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19BBB78F-6D8C-487F-AF71-CC1A1DF74F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19BBB78F-6D8C-487F-AF71-CC1A1DF74F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6FC142C-CA9B-46FA-AC14-B1AA5CF3473E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6FC142C-CA9B-46FA-AC14-B1AA5CF3473E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6FC142C-CA9B-46FA-AC14-B1AA5CF3473E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6FC142C-CA9B-46FA-AC14-B1AA5CF3473E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

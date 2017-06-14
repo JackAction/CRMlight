@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="aplixH_HFU_Test" Class="LINQtoSQLDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=sql.aplix.ch,14444;Initial Catalog=aplixH_HFU_Test;Persist Security Info=True;User ID=aplixH_HFU_crm" SettingsObjectName="CRMLight.Properties.Settings" SettingsPropertyName="aplixH_HFU_TestConnectionString" Provider="System.Data.SqlClient" />
+  <Function Name="dbo.crm_Anmelden" Method="crm_Anmelden">
+    <Parameter Name="i_Benutzer" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="i_Passwort" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="crm_AnmeldenResult">
+      <Column Name="Fehler" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Fehlermeldung" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="SessionID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.crm_GetPendenzen" Method="crm_GetPendenzen">
+    <Parameter Name="i_SessionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_KontaktID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="crm_GetPendenzenResult">
+      <Column Name="Fehler" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FehlerMeldung" Type="System.String" DbType="VarChar(27) NOT NULL" CanBeNull="false" />
+      <Column Name="PendenzID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="MitarbeiterID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Termin" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Titel" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Beschreibung" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
+      <Column Name="Erledigt" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="Quelle" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.crm_SetPendenz" Method="crm_SetPendenz">
+    <Parameter Name="i_SessionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_KontaktID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_PendenzID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_Modus" Type="System.String" DbType="VarChar(10)" />
+    <Parameter Name="i_Termin" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="i_MitarbeiterID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_Titel" Type="System.String" DbType="VarChar(50)" />
+    <Parameter Name="i_Beschreibung" Type="System.String" DbType="VarChar(8000)" />
+    <ElementType Name="crm_SetPendenzResult">
+      <Column Name="Fehler" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Fehlermeldung" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.crm_GetKontakte" Method="crm_GetKontakte">
+    <Parameter Name="i_SessionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_FilterID" Type="System.Int32" DbType="Int" />
+    <ElementType Name="crm_GetKontakteResult">
+      <Column Name="Fehler" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FehlerMeldung" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="KontaktID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Firma" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Vorname" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Strasse" Type="System.String" DbType="VarChar(150)" CanBeNull="true" />
+      <Column Name="PLZ" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
+      <Column Name="Ort" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Telefon" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="Mobile" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="eMail" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Bemerkung" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="Interessen" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="AktionTermin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="AktionBeschreibung" Type="System.String" DbType="VarChar(8000)" CanBeNull="true" />
+      <Column Name="AktionMitarbeiterID" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </ElementType>
+  </Function>
+  <Function Name="dbo.crm_GetStammdaten" Method="crm_GetStammdaten">
+    <Parameter Name="i_SessionID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="i_Tabelle" Type="System.String" DbType="VarChar(50)" />
+    <ElementType Name="crm_GetStammdatenResult">
+      <Column Name="Fehler" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FehlerMeldung" Type="System.String" DbType="VarChar(255)" CanBeNull="true" />
+      <Column Name="ID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Code" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="Bezeichnung" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </ElementType>
+  </Function>
+</Database>
