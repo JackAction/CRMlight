@@ -41,6 +41,13 @@ namespace CRMLight
             set { _kontakte = value; }
         }
 
+        private readonly FilterRepository filterRepository = new FilterRepository();
+        ObservableCollection<FilterViewModel> _filter
+        {
+            get { return _filter; }
+            set { _filter = value; }
+        }
+
         private DBLogin dbLogin = new DBLogin();
 
         public MainViewModel()
@@ -87,6 +94,20 @@ namespace CRMLight
                     new KontaktViewModel
                     {
                         Kontakt = kotakteFromDB[i]
+                    });
+            }
+        }
+
+        private void LoadFilterFromRepositor()
+        {
+            var filterFromDB = filterRepository.GetAll(dbLogin.SessionID);
+            int filterCount = filterFromDB.Count;
+            for (int i = 0; i < filterCount; i++)
+            {
+                _filter.Add(
+                    new FilterViewModel
+                    {
+                        Filter = filterFromDB[i]
                     });
             }
         }

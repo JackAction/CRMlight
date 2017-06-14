@@ -70,12 +70,15 @@
     </Compile>
     <Compile Include="Helpers\DBLogin.cs" />
     <Compile Include="Models\FilterModel.cs" />
+    <Compile Include="Models\KontaktModel.cs" />
     <Compile Include="Models\MitarbeiterModel.cs" />
     <Compile Include="Models\PendenzModel.cs" />
     <Compile Include="Helpers\MyMapper.cs" />
     <Compile Include="Repositories\FilterRepository.cs" />
+    <Compile Include="Repositories\KontaktRepository.cs" />
     <Compile Include="Repositories\MitarbeiterRepository.cs" />
     <Compile Include="ViewModels\FilterViewModel.cs" />
+    <Compile Include="ViewModels\KontaktViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MitarbeiterViewModel.cs" />
     <Compile Include="ViewModels\PendenzViewModel.cs" />
