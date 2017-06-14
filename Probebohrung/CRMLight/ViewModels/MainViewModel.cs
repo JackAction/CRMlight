@@ -31,6 +31,16 @@ namespace CRMLight
             set { _mitarbeiter = value; }
         }
 
+        private readonly KontaktRepository kontaktRepository = new KontaktRepository();
+
+        ObservableCollection<KontaktViewModel> _kontakte = new ObservableCollection<KontaktViewModel>();
+
+        public ObservableCollection<KontaktViewModel> Kontakte
+        {
+            get { return _kontakte; }
+            set { _kontakte = value; }
+        }
+
         private DBLogin dbLogin = new DBLogin();
 
         public MainViewModel()
@@ -63,6 +73,20 @@ namespace CRMLight
                     new MitarbeiterViewModel
                     {
                         Mitarbeiter = mitarbeiterFromDB[i]
+                    });
+            }
+        }
+
+        private void LoadKontakteFromRepository(int filterID)
+        {
+            var kotakteFromDB = kontaktRepository.GetAll(dbLogin.SessionID, filterID);
+            int kontakteCount = kotakteFromDB.Count;
+            for (int i = 0; i < kontakteCount; i++)
+            {
+                _kontakte.Add(
+                    new KontaktViewModel
+                    {
+                        Kontakt = kotakteFromDB[i]
                     });
             }
         }
