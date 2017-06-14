@@ -66,6 +66,16 @@ namespace CRMLight
             }
         }
 
+        public string Titel
+        {
+            get { return _pendenz.Titel; }
+            set
+            {
+                _pendenz.Titel = value;
+                RaisePropertyChanged("Titel");
+            }
+        }
+
         public string Beschreibung
         {
             get { return _pendenz.Beschreibung; }

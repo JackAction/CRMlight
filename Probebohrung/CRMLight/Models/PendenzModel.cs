@@ -9,6 +9,7 @@ namespace CRMLight
         public int KontaktID { get; set; }
         public DateTime Termin { get; set; }
         public int MitarbeiterID { get; set; }
+        public string Titel { get; set; }
         public string Beschreibung { get; set; }
 
     }
