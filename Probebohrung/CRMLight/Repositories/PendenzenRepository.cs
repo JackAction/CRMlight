@@ -83,7 +83,7 @@ namespace CRMLight
                 bool returnStatus = WasActionSuccessful(result, out _returnMsg);
                 return returnStatus;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }

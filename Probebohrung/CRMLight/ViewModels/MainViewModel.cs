@@ -48,7 +48,6 @@ namespace CRMLight
         #endregion
 
         KontaktViewModel _selectedKontakt;
-
         public KontaktViewModel SelectedKontakt
         {
             get
@@ -67,6 +66,26 @@ namespace CRMLight
             }
         }
 
+        PendenzViewModel _selectedPendenz;
+        public PendenzViewModel SelectedPendenz
+        {
+            get
+            {
+                return _selectedPendenz;
+            }
+            set
+            {
+                if (_selectedPendenz == value)
+                {
+                    return;
+                }
+                _selectedPendenz = value;
+                RaisePropertyChanged("SelectedPendenz");
+            }
+        }
+
+        string _statusmessage;
+
         private DBLogin dbLogin = new DBLogin();
 
         public MainViewModel()
@@ -75,8 +94,11 @@ namespace CRMLight
             //LoadPendenzenFromRepository();
         }
 
+        #region Load Data from Repository
+
         private void LoadPendenzenFromRepository(int kontaktID)
         {
+            _pendenzen.Clear();
             var pendenzenFromDB = pendenzenRepository.GetAll(dbLogin.SessionID, kontaktID);
             int pendenzenCount = pendenzenFromDB.Count;
             for (int i = 0; i < pendenzenCount; i++)
@@ -117,7 +139,7 @@ namespace CRMLight
             }
         }
 
-        private void LoadFilterFromRepositor()
+        private void LoadFilterFromRepository()
         {
             var filterFromDB = filterRepository.GetAll(dbLogin.SessionID);
             int filterCount = filterFromDB.Count;
@@ -131,6 +153,10 @@ namespace CRMLight
             }
         }
 
+        #endregion
+
+
+        #region Commands
 
         void ExecuteLogin()
         {
@@ -139,7 +165,7 @@ namespace CRMLight
                 return;
             }
             dbLogin.Login("uwe.singer", "us8117us");
-            
+
         }
 
         bool CanExecuteLogin()
@@ -156,7 +182,8 @@ namespace CRMLight
                 return;
             }
             LoadMitarbeiterFromRepository();
-
+            LoadFilterFromRepository();
+            LoadKontakteFromRepository(0);
         }
 
         bool CanExecuteShowMitarbeiter()
@@ -165,6 +192,57 @@ namespace CRMLight
         }
 
         public ICommand ShowMitarbeiter { get { return new RelayCommand(ExecuteShowMitarbeiter, CanExecuteShowMitarbeiter); } }
+
+        void ExecuteAddPendenz()
+        {
+            if (_pendenzen == null)
+            {
+                return;
+            }
+            _pendenzen.Add(new PendenzViewModel());
+
+
+            SelectedPendenz = _pendenzen.Last();
+            //EditModeActive = true;
+
+
+            //Pendenz = pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, new PendenzModel(), out _statusmessage)
+        }
+
+        bool CanExecuteAddPendenz()
+        {
+            return true;
+        }
+
+        public ICommand AddPendenz { get { return new RelayCommand(ExecuteAddPendenz, CanExecuteAddPendenz); } }
+
+        void ExecuteSavePendenz()
+        {
+            if (_pendenzen == null)
+            {
+                return;
+            }
+
+            if (_selectedPendenz.PendenzID == 0)
+            {
+                pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage);
+            }
+            else
+            {
+                pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage);
+            }
+            //EditModeActive = true;
+        }
+
+        bool CanExecuteSavePendenz()
+        {
+            return true;
+        }
+
+        public ICommand SavePendenz { get { return new RelayCommand(ExecuteSavePendenz, CanExecuteSavePendenz); } }
+
+        #endregion
+
 
 
     }

@@ -11,9 +11,31 @@
     </Window.DataContext>
     <Grid>
         <Canvas>
-            <Button x:Name="button" Command="{Binding Login}" Content="Login" Canvas.Left="118" Canvas.Top="86" Width="75"/>
-            <Button x:Name="button2" Command="{Binding ShowMitarbeiter}" Content="Mitarbeiter" Canvas.Left="118" Canvas.Top="131" Width="75"/>
-            <ListView x:Name="listView" ItemsSource="{Binding Mitarbeiter}" Height="347" Canvas.Left="248" Canvas.Top="36" Width="456">
+            <Button x:Name="button" Command="{Binding Login}" Content="Login" Canvas.Left="29" Canvas.Top="33" Width="75"/>
+            <Button x:Name="button2" Command="{Binding ShowMitarbeiter}" Content="Mitarbeiter" Canvas.Left="29" Canvas.Top="78" Width="75"/>
+            <Button x:Name="button3" Command="{Binding AddPendenz}" Content="Add" Canvas.Left="287" Canvas.Top="481" Width="75"/>
+            <Button x:Name="button5" Command="{Binding EditPendenz}" Content="Edit" Canvas.Left="383" Canvas.Top="481" Width="75"/>
+            <Button x:Name="button4" Command="{Binding RemovePendenz}" Content="Remove" Canvas.Left="484" Canvas.Top="481" Width="75"/>
+            <Button x:Name="button6" Command="{Binding SavePendenz}" Content="Save" Canvas.Left="580" Canvas.Top="481" Width="75"/>
+            <Button x:Name="button7" Command="{Binding CancelPendenz}" Content="Cancel" Canvas.Left="673" Canvas.Top="481" Width="75"/>
+
+            <DatePicker SelectedDate="{Binding ElementName=dataGridPendenz, Path=SelectedItem.Termin}" Canvas.Left="152" Canvas.Top="421"/>
+            <ComboBox x:Name="cbxMitarbeiter" 
+                      ItemsSource="{Binding Mitarbeiter}" 
+                      SelectedValue="{Binding ElementName=dataGridPendenz, Path=SelectedItem.MitarbeiterID, Mode=TwoWay}" 
+                      SelectedValuePath="ID" 
+                      DisplayMemberPath="Bezeichnung" 
+                      IsEnabled="{Binding EntryFieldsEnabled}" Canvas.Left="287" Canvas.Top="416" Width="171"/>
+            <TextBox Name="txtName" 
+                     IsEnabled="{Binding EntryFieldsEnabled}" MaxLength="100" Canvas.Left="484" Canvas.Top="420" Width="171">
+                <TextBox.Text>
+                    <Binding ElementName="dataGridPendenz" Path="SelectedItem.Titel">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+
+            <ListView x:Name="listViewMitarbeiter" ItemsSource="{Binding Mitarbeiter}" Height="264" Canvas.Left="122" Canvas.Top="33" Width="132">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>
@@ -26,6 +48,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <DataGrid x:Name="dataGridKontakt" ItemsSource="{Binding Kontakte}" SelectedItem="{Binding SelectedKontakt}" Canvas.Left="287" Canvas.Top="35" Height="141" Width="436"/>
+            <DataGrid x:Name="dataGridPendenz" ItemsSource="{Binding Pendenzen}"  SelectedItem="{Binding SelectedPendenz}" Canvas.Left="287" Canvas.Top="232" Height="154" Width="436"/>
+            
+
         </Canvas>
     </Grid>
 </Window>

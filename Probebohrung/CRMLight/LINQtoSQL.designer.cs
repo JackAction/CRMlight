@@ -69,20 +69,6 @@ namespace CRMLight
 			return ((ISingleResult<crm_AnmeldenResult>)(result.ReturnValue));
 		}
 		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.crm_GetPendenzen")]
-		public ISingleResult<crm_GetPendenzenResult> crm_GetPendenzen([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_SessionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_KontaktID)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), i_SessionID, i_KontaktID);
-			return ((ISingleResult<crm_GetPendenzenResult>)(result.ReturnValue));
-		}
-		
-		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.crm_SetPendenz")]
-		public ISingleResult<crm_SetPendenzResult> crm_SetPendenz([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_SessionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_KontaktID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_PendenzID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string i_Modus, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> i_Termin, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_MitarbeiterID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string i_Titel, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8000)")] string i_Beschreibung)
-		{
-			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), i_SessionID, i_KontaktID, i_PendenzID, i_Modus, i_Termin, i_MitarbeiterID, i_Titel, i_Beschreibung);
-			return ((ISingleResult<crm_SetPendenzResult>)(result.ReturnValue));
-		}
-		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.crm_GetKontakte")]
 		public ISingleResult<crm_GetKontakteResult> crm_GetKontakte([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_SessionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_FilterID)
 		{
@@ -90,11 +76,25 @@ namespace CRMLight
 			return ((ISingleResult<crm_GetKontakteResult>)(result.ReturnValue));
 		}
 		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.crm_GetPendenzen")]
+		public ISingleResult<crm_GetPendenzenResult> crm_GetPendenzen([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_SessionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_KontaktID)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), i_SessionID, i_KontaktID);
+			return ((ISingleResult<crm_GetPendenzenResult>)(result.ReturnValue));
+		}
+		
 		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.crm_GetStammdaten")]
 		public ISingleResult<crm_GetStammdatenResult> crm_GetStammdaten([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_SessionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string i_Tabelle)
 		{
 			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), i_SessionID, i_Tabelle);
 			return ((ISingleResult<crm_GetStammdatenResult>)(result.ReturnValue));
+		}
+		
+		[global::System.Data.Linq.Mapping.FunctionAttribute(Name="dbo.crm_SetPendenz")]
+		public ISingleResult<crm_SetPendenzResult> crm_SetPendenz([global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_SessionID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_KontaktID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_PendenzID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(10)")] string i_Modus, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="DateTime")] System.Nullable<System.DateTime> i_Termin, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="Int")] System.Nullable<int> i_MitarbeiterID, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(50)")] string i_Titel, [global::System.Data.Linq.Mapping.ParameterAttribute(DbType="VarChar(8000)")] string i_Beschreibung)
+		{
+			IExecuteResult result = this.ExecuteMethodCall(this, ((MethodInfo)(MethodInfo.GetCurrentMethod())), i_SessionID, i_KontaktID, i_PendenzID, i_Modus, i_Termin, i_MitarbeiterID, i_Titel, i_Beschreibung);
+			return ((ISingleResult<crm_SetPendenzResult>)(result.ReturnValue));
 		}
 	}
 	
@@ -155,220 +155,6 @@ namespace CRMLight
 				if ((this._SessionID != value))
 				{
 					this._SessionID = value;
-				}
-			}
-		}
-	}
-	
-	public partial class crm_GetPendenzenResult
-	{
-		
-		private int _Fehler;
-		
-		private string _FehlerMeldung;
-		
-		private int _PendenzID;
-		
-		private int _MitarbeiterID;
-		
-		private System.Nullable<int> _Termin;
-		
-		private string _Titel;
-		
-		private string _Beschreibung;
-		
-		private System.Nullable<bool> _Erledigt;
-		
-		private string _Quelle;
-		
-		public crm_GetPendenzenResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fehler", DbType="Int NOT NULL")]
-		public int Fehler
-		{
-			get
-			{
-				return this._Fehler;
-			}
-			set
-			{
-				if ((this._Fehler != value))
-				{
-					this._Fehler = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FehlerMeldung", DbType="VarChar(27) NOT NULL", CanBeNull=false)]
-		public string FehlerMeldung
-		{
-			get
-			{
-				return this._FehlerMeldung;
-			}
-			set
-			{
-				if ((this._FehlerMeldung != value))
-				{
-					this._FehlerMeldung = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PendenzID", DbType="Int NOT NULL")]
-		public int PendenzID
-		{
-			get
-			{
-				return this._PendenzID;
-			}
-			set
-			{
-				if ((this._PendenzID != value))
-				{
-					this._PendenzID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MitarbeiterID", DbType="Int NOT NULL")]
-		public int MitarbeiterID
-		{
-			get
-			{
-				return this._MitarbeiterID;
-			}
-			set
-			{
-				if ((this._MitarbeiterID != value))
-				{
-					this._MitarbeiterID = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Termin", DbType="Int")]
-		public System.Nullable<int> Termin
-		{
-			get
-			{
-				return this._Termin;
-			}
-			set
-			{
-				if ((this._Termin != value))
-				{
-					this._Termin = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Titel", DbType="VarChar(50)")]
-		public string Titel
-		{
-			get
-			{
-				return this._Titel;
-			}
-			set
-			{
-				if ((this._Titel != value))
-				{
-					this._Titel = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Beschreibung", DbType="VarChar(8000)")]
-		public string Beschreibung
-		{
-			get
-			{
-				return this._Beschreibung;
-			}
-			set
-			{
-				if ((this._Beschreibung != value))
-				{
-					this._Beschreibung = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Erledigt", DbType="Bit")]
-		public System.Nullable<bool> Erledigt
-		{
-			get
-			{
-				return this._Erledigt;
-			}
-			set
-			{
-				if ((this._Erledigt != value))
-				{
-					this._Erledigt = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quelle", DbType="VarChar(255)")]
-		public string Quelle
-		{
-			get
-			{
-				return this._Quelle;
-			}
-			set
-			{
-				if ((this._Quelle != value))
-				{
-					this._Quelle = value;
-				}
-			}
-		}
-	}
-	
-	public partial class crm_SetPendenzResult
-	{
-		
-		private System.Nullable<int> _Fehler;
-		
-		private string _Fehlermeldung;
-		
-		public crm_SetPendenzResult()
-		{
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fehler", DbType="Int")]
-		public System.Nullable<int> Fehler
-		{
-			get
-			{
-				return this._Fehler;
-			}
-			set
-			{
-				if ((this._Fehler != value))
-				{
-					this._Fehler = value;
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fehlermeldung", DbType="VarChar(255)")]
-		public string Fehlermeldung
-		{
-			get
-			{
-				return this._Fehlermeldung;
-			}
-			set
-			{
-				if ((this._Fehlermeldung != value))
-				{
-					this._Fehlermeldung = value;
 				}
 			}
 		}
@@ -688,6 +474,176 @@ namespace CRMLight
 		}
 	}
 	
+	public partial class crm_GetPendenzenResult
+	{
+		
+		private int _Fehler;
+		
+		private string _FehlerMeldung;
+		
+		private int _PendenzID;
+		
+		private int _MitarbeiterID;
+		
+		private System.Nullable<DateTime> _Termin;
+		
+		private string _Titel;
+		
+		private string _Beschreibung;
+		
+		private System.Nullable<bool> _Erledigt;
+		
+		private string _Quelle;
+		
+		public crm_GetPendenzenResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fehler", DbType="Int NOT NULL")]
+		public int Fehler
+		{
+			get
+			{
+				return this._Fehler;
+			}
+			set
+			{
+				if ((this._Fehler != value))
+				{
+					this._Fehler = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_FehlerMeldung", DbType="VarChar(27) NOT NULL", CanBeNull=false)]
+		public string FehlerMeldung
+		{
+			get
+			{
+				return this._FehlerMeldung;
+			}
+			set
+			{
+				if ((this._FehlerMeldung != value))
+				{
+					this._FehlerMeldung = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_PendenzID", DbType="Int NOT NULL")]
+		public int PendenzID
+		{
+			get
+			{
+				return this._PendenzID;
+			}
+			set
+			{
+				if ((this._PendenzID != value))
+				{
+					this._PendenzID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MitarbeiterID", DbType="Int NOT NULL")]
+		public int MitarbeiterID
+		{
+			get
+			{
+				return this._MitarbeiterID;
+			}
+			set
+			{
+				if ((this._MitarbeiterID != value))
+				{
+					this._MitarbeiterID = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Termin", DbType="DateTime")]
+		public System.Nullable<DateTime> Termin
+		{
+			get
+			{
+				return this._Termin;
+			}
+			set
+			{
+				if ((this._Termin != value))
+				{
+					this._Termin = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Titel", DbType="VarChar(50)")]
+		public string Titel
+		{
+			get
+			{
+				return this._Titel;
+			}
+			set
+			{
+				if ((this._Titel != value))
+				{
+					this._Titel = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Beschreibung", DbType="VarChar(8000)")]
+		public string Beschreibung
+		{
+			get
+			{
+				return this._Beschreibung;
+			}
+			set
+			{
+				if ((this._Beschreibung != value))
+				{
+					this._Beschreibung = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Erledigt", DbType="Bit")]
+		public System.Nullable<bool> Erledigt
+		{
+			get
+			{
+				return this._Erledigt;
+			}
+			set
+			{
+				if ((this._Erledigt != value))
+				{
+					this._Erledigt = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Quelle", DbType="VarChar(255)")]
+		public string Quelle
+		{
+			get
+			{
+				return this._Quelle;
+			}
+			set
+			{
+				if ((this._Quelle != value))
+				{
+					this._Quelle = value;
+				}
+			}
+		}
+	}
+	
 	public partial class crm_GetStammdatenResult
 	{
 		
@@ -781,6 +737,50 @@ namespace CRMLight
 				if ((this._Bezeichnung != value))
 				{
 					this._Bezeichnung = value;
+				}
+			}
+		}
+	}
+	
+	public partial class crm_SetPendenzResult
+	{
+		
+		private System.Nullable<int> _Fehler;
+		
+		private string _Fehlermeldung;
+		
+		public crm_SetPendenzResult()
+		{
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fehler", DbType="Int")]
+		public System.Nullable<int> Fehler
+		{
+			get
+			{
+				return this._Fehler;
+			}
+			set
+			{
+				if ((this._Fehler != value))
+				{
+					this._Fehler = value;
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Fehlermeldung", DbType="VarChar(255)")]
+		public string Fehlermeldung
+		{
+			get
+			{
+				return this._Fehlermeldung;
+			}
+			set
+			{
+				if ((this._Fehlermeldung != value))
+				{
+					this._Fehlermeldung = value;
 				}
 			}
 		}
