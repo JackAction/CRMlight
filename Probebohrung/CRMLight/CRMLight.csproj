@@ -68,6 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\DBLogin.cs" />
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\KontaktModel.cs" />

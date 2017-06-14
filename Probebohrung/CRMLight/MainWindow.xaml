@@ -48,8 +48,8 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <DataGrid x:Name="dataGridKontakt" ItemsSource="{Binding Kontakte}" SelectedItem="{Binding SelectedKontakt}" Canvas.Left="287" Canvas.Top="35" Height="141" Width="436"/>
-            <DataGrid x:Name="dataGridPendenz" ItemsSource="{Binding Pendenzen}"  SelectedItem="{Binding SelectedPendenz}" Canvas.Left="287" Canvas.Top="232" Height="154" Width="436"/>
+            <DataGrid x:Name="dataGridKontakt" ItemsSource="{Binding Kontakte}" SelectedItem="{Binding SelectedKontakt}" IsEnabled="{Binding ListEnabled}" Canvas.Left="287" Canvas.Top="35" Height="141" Width="436"/>
+            <DataGrid x:Name="dataGridPendenz" ItemsSource="{Binding Pendenzen}"  SelectedItem="{Binding SelectedPendenz}" IsEnabled="{Binding ListEnabled}" Canvas.Left="287" Canvas.Top="232" Height="154" Width="436"/>
             
 
         </Canvas>

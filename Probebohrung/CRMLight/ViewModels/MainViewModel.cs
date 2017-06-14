@@ -11,7 +11,7 @@ namespace CRMLight
 {
     public class MainViewModel : ObservableObject
     {
-        #region Listen
+        #region Listen + SelectedItems
 
         private readonly PendenzenRepository pendenzenRepository = new PendenzenRepository();
         ObservableCollection<PendenzViewModel> _pendenzen = new ObservableCollection<PendenzViewModel>();
@@ -44,8 +44,6 @@ namespace CRMLight
             get { return _filter; }
             set { _filter = value; }
         }
-
-        #endregion
 
         KontaktViewModel _selectedKontakt;
         public KontaktViewModel SelectedKontakt
@@ -83,6 +81,35 @@ namespace CRMLight
                 RaisePropertyChanged("SelectedPendenz");
             }
         }
+
+        #endregion
+
+        #region Visibility management
+
+        bool _editModeActive = false;
+
+        public bool EditModeActive
+        {
+            get { return _editModeActive; }
+
+            set
+            {
+                if (_editModeActive == value)
+                {
+                    return;
+                }
+                _editModeActive = value;
+                RaisePropertyChanged("EditModeActive");
+                RaisePropertyChanged("ListEnabled");
+                RaisePropertyChanged("EntryFieldsEnabled");
+            }
+        }
+
+        public bool ListEnabled => !_editModeActive;
+
+        public bool EntryFieldsEnabled => _editModeActive;
+
+        #endregion
 
         string _statusmessage;
 
@@ -203,18 +230,49 @@ namespace CRMLight
 
 
             SelectedPendenz = _pendenzen.Last();
-            //EditModeActive = true;
-
-
-            //Pendenz = pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, new PendenzModel(), out _statusmessage)
+            EditModeActive = true;
         }
 
         bool CanExecuteAddPendenz()
         {
-            return true;
+            return !_editModeActive;
         }
 
         public ICommand AddPendenz { get { return new RelayCommand(ExecuteAddPendenz, CanExecuteAddPendenz); } }
+
+        void ExecuteEditPendenz()
+        {
+            EditModeActive = true;
+        }
+
+        bool CanExecuteEditPendenz()
+        {
+            return (_selectedPendenz == null) ? false : !_editModeActive;
+        }
+
+        public ICommand EditPendenz { get { return new RelayCommand(ExecuteEditPendenz, CanExecuteEditPendenz); } }
+
+        void ExecuteRemovePendenz()
+        {
+            if (_pendenzen == null)
+            {
+                return;
+            }
+            if (_selectedPendenz.PendenzID != 0)
+            {
+                pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage); 
+            }
+            _pendenzen.Remove(_selectedPendenz);
+
+            EditModeActive = false;
+        }
+
+        bool CanExecuteRemovePendenz()
+        {
+            return (_selectedPendenz == null) ? false : true;
+        }
+
+        public ICommand RemovePendenz { get { return new RelayCommand(ExecuteRemovePendenz, CanExecuteRemovePendenz); } }
 
         void ExecuteSavePendenz()
         {
@@ -231,15 +289,40 @@ namespace CRMLight
             {
                 pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage);
             }
-            //EditModeActive = true;
+            EditModeActive = true;
         }
 
         bool CanExecuteSavePendenz()
         {
-            return true;
+            return _editModeActive;
         }
 
         public ICommand SavePendenz { get { return new RelayCommand(ExecuteSavePendenz, CanExecuteSavePendenz); } }
+
+        void ExecuteCancelPendenz()
+        {
+            if (_pendenzen == null)
+            {
+                return;
+            }
+
+            if (_selectedPendenz.PendenzID == 0)
+            {
+                _pendenzen.Remove(_selectedPendenz);
+            }
+            else
+            {
+                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+            }
+            EditModeActive = false;
+        }
+
+        bool CanExecuteCancelPendenz()
+        {
+            return _editModeActive;
+        }
+
+        public ICommand CancelPendenz { get { return new RelayCommand(ExecuteCancelPendenz, CanExecuteCancelPendenz); } }
 
         #endregion
 
