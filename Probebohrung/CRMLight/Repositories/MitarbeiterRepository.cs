@@ -19,8 +19,10 @@ namespace CRMLight
 
         public List<MitarbeiterModel> GetAll(int sessionID)
         {
+
             var dbReturn = dataContext.crm_GetStammdaten(sessionID, "Mitarbeiter").ToList();
             return myMapper.mapperFromDB.Map<List<MitarbeiterModel>>(dbReturn);
+
         }
 
     }

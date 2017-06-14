@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CRMLight
 {
-    class PendenzenRepository : IRepository<PendenzModel>
+    class PendenzenRepository
     {
         private LINQtoSQLDataContext dataContext;
         private MyMapper<crm_GetPendenzenResult, PendenzModel> myMapper;
