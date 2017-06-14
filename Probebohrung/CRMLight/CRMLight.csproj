@@ -69,15 +69,17 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\DBLogin.cs" />
+    <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\MitarbeiterModel.cs" />
     <Compile Include="Models\PendenzModel.cs" />
     <Compile Include="Helpers\MyMapper.cs" />
+    <Compile Include="Repositories\FilterRepository.cs" />
     <Compile Include="Repositories\MitarbeiterRepository.cs" />
+    <Compile Include="ViewModels\FilterViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\MitarbeiterViewModel.cs" />
     <Compile Include="ViewModels\PendenzViewModel.cs" />
     <Compile Include="Repositories\PendenzenRepository.cs" />
-    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="LINQtoSQL.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -102,6 +104,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ClassDiagrams\MainDiagram.cd" />
     <None Include="LINQtoSQL.dbml.layout">
       <DependentUpon>LINQtoSQL.dbml</DependentUpon>
     </None>
