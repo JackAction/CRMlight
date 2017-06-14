@@ -11,10 +11,10 @@ namespace CRMLight
 {
     public class MainViewModel : ObservableObject
     {
+        #region Listen
+
         private readonly PendenzenRepository pendenzenRepository = new PendenzenRepository();
-
         ObservableCollection<PendenzViewModel> _pendenzen = new ObservableCollection<PendenzViewModel>();
-
         public ObservableCollection<PendenzViewModel> Pendenzen
         {
             get { return _pendenzen; }
@@ -22,9 +22,7 @@ namespace CRMLight
         }
 
         private readonly MitarbeiterRepository mitarbeiterRepository = new MitarbeiterRepository();
-
         ObservableCollection<MitarbeiterViewModel> _mitarbeiter = new ObservableCollection<MitarbeiterViewModel>();
-
         public ObservableCollection<MitarbeiterViewModel> Mitarbeiter
         {
             get { return _mitarbeiter; }
@@ -32,9 +30,7 @@ namespace CRMLight
         }
 
         private readonly KontaktRepository kontaktRepository = new KontaktRepository();
-
         ObservableCollection<KontaktViewModel> _kontakte = new ObservableCollection<KontaktViewModel>();
-
         public ObservableCollection<KontaktViewModel> Kontakte
         {
             get { return _kontakte; }
@@ -42,10 +38,33 @@ namespace CRMLight
         }
 
         private readonly FilterRepository filterRepository = new FilterRepository();
-        ObservableCollection<FilterViewModel> _filter
+        ObservableCollection<FilterViewModel> _filter = new ObservableCollection<FilterViewModel>();
+        public ObservableCollection<FilterViewModel> Filter
         {
             get { return _filter; }
             set { _filter = value; }
+        }
+
+        #endregion
+
+        KontaktViewModel _selectedKontakt;
+
+        public KontaktViewModel SelectedKontakt
+        {
+            get
+            {
+                return _selectedKontakt;
+            }
+            set
+            {
+                if (_selectedKontakt == value)
+                {
+                    return;
+                }
+                _selectedKontakt = value;
+                RaisePropertyChanged("SelectedKontakt");
+                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+            }
         }
 
         private DBLogin dbLogin = new DBLogin();
@@ -56,9 +75,9 @@ namespace CRMLight
             //LoadPendenzenFromRepository();
         }
 
-        private void LoadPendenzenFromRepository()
+        private void LoadPendenzenFromRepository(int kontaktID)
         {
-            var pendenzenFromDB = pendenzenRepository.GetAll(dbLogin.SessionID,3);
+            var pendenzenFromDB = pendenzenRepository.GetAll(dbLogin.SessionID, kontaktID);
             int pendenzenCount = pendenzenFromDB.Count;
             for (int i = 0; i < pendenzenCount; i++)
             {
