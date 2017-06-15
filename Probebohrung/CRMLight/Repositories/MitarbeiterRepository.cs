@@ -8,8 +8,17 @@ namespace CRMLight
 {
     public class MitarbeiterRepository
     {
+        #region ATTRIBUTS
+
         private LINQtoSQLDataContext dataContext;
         private MyMapper<crm_GetStammdatenResult, MitarbeiterModel> myMapper;
+
+        // Standard String fuer unterbrochene DB Conn. kann bei bedarf geaendert werden
+        private readonly string dbErrorConnMessage = string.Format("Verbindungsfehler zur Datenbank!");
+
+        #endregion
+
+        #region CONSTRUCTORS
 
         public MitarbeiterRepository()
         {
@@ -17,13 +26,29 @@ namespace CRMLight
             myMapper = new MyMapper<crm_GetStammdatenResult, MitarbeiterModel>();
         }
 
+        #endregion
+
+        #region PUBLIC Methods
+
+        /// <summary>
+        /// Liefert eine Liste mit allen Mitarbeitern zurueck. Liste
+        /// enthaelt alle Infomationen ueber einen Mitarbeiter
+        /// </summary>
+        /// <param name="sessionID"></param>
+        /// <returns>Liste vom Typ MitarbeiterModel</returns>
         public List<MitarbeiterModel> GetAll(int sessionID)
         {
-
-            var dbReturn = dataContext.crm_GetStammdaten(sessionID, "Mitarbeiter").ToList();
-            return myMapper.mapperFromDB.Map<List<MitarbeiterModel>>(dbReturn);
-
+            try
+            {
+                var dbReturn = dataContext.crm_GetStammdaten(sessionID, "Mitarbeiter").ToList();
+                return myMapper.mapperFromDB.Map<List<MitarbeiterModel>>(dbReturn);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException(dbErrorConnMessage);
+            }
         }
 
+        #endregion
     }
 }

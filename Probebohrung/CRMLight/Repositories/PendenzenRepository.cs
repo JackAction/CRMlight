@@ -31,6 +31,7 @@ namespace CRMLight
 
         #region PRIVATE Methods
 
+        // Diese Methode nimmt einen einzelnen Datensatz
         private DbReturnStatus WasActionSuccessful(crm_SetPendenzResult dataRow)
         {
             string dbStatusMsg = dataRow.Fehlermeldung;
@@ -87,7 +88,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -122,7 +123,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -157,7 +158,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -193,7 +194,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -229,7 +230,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -241,8 +242,15 @@ namespace CRMLight
 
         public List<PendenzModel> GetAll(int sessionID, int kontaktID)
         {
-            var dbReturn = dataContext.crm_GetPendenzen(sessionID, kontaktID).ToList();
-            return myMapper.mapperFromDB.Map<List<PendenzModel>>(dbReturn);
+            try
+            {
+                var dbReturn = dataContext.crm_GetPendenzen(sessionID, kontaktID).ToList();
+                return myMapper.mapperFromDB.Map<List<PendenzModel>>(dbReturn);
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException(dbErrorConnMessage);
+            }
         }
 
         #endregion

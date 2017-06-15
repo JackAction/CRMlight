@@ -218,7 +218,7 @@
                         <TextBox Text="{Binding ElementName=dbgrdKontakte, Path=SelectedItem.eMail}" Margin="422,0,0,118" Height="25" IsReadOnly="True" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="220"/>
 
                         <Label Content="Bemerkung" Height="30" Width="85" FontSize="15" HorizontalAlignment="Left" Margin="17,0,0,58" VerticalAlignment="Bottom"/>
-                        <TextBox Text="{Binding ElementName=dbgrdKontakte, Path=SelectedItem.Bemerkungen}" Margin="102,0,344,21" Height="62" IsReadOnly="True" VerticalAlignment="Bottom"/>
+                        <TextBox Text="{Binding ElementName=dbgrdKontakte, Path=SelectedItem.Bemerkung}" Margin="102,0,344,21" Height="62" IsReadOnly="True" VerticalAlignment="Bottom"/>
 
                         <Label Content="Interessen" Height="30" Width="79" FontSize="15" HorizontalAlignment="Left" Margin="663,0,0,113" VerticalAlignment="Bottom"/>
                         <TextBox Text="{Binding ElementName=dbgrdKontakte, Path=SelectedItem.Interessen}" Margin="742,0,24.333,87.333" Height="55" IsReadOnly="True" VerticalAlignment="Bottom"/>

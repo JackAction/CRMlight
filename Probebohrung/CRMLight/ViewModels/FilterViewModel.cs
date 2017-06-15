@@ -9,12 +9,22 @@ namespace CRMLight
 {
     public class FilterViewModel: ObservableObject
     {
+        #region ATTRIBUTS
+
         private FilterModel _filter;
+
+        #endregion
+
+        #region CONSTRUCTORS
 
         public FilterViewModel()
         {
             _filter = new FilterModel();
         }
+
+        #endregion
+
+        #region PROPERTIES
 
         public FilterModel Filter
         {
@@ -22,9 +32,6 @@ namespace CRMLight
             set
             {
                 _filter = value;
-                //RaisePropertyChanged("ID");
-                //RaisePropertyChanged("Code");
-                //RaisePropertyChanged("Bezeichnung");
             }
         }
 
@@ -34,7 +41,6 @@ namespace CRMLight
             set
             {
                 _filter.ID = value;
-                //RaisePropertyChanged("ID");
             }
         }
 
@@ -44,7 +50,6 @@ namespace CRMLight
             set
             {
                 _filter.Code = value;
-                //RaisePropertyChanged("Code");
             }
         }
 
@@ -54,8 +59,9 @@ namespace CRMLight
             set
             {
                 _filter.Bezeichnung = value;
-                //RaisePropertyChanged("Bezeichnung");
             }
         }
+
+        #endregion
     }
 }

@@ -5,12 +5,22 @@ namespace CRMLight
 {
     public class PendenzViewModel : ObservableObject
     {
+        #region ATTRIBUTS
+
         private PendenzModel _pendenz;
+
+        #endregion
+
+        #region CONSTRUCTORS
 
         public PendenzViewModel()
         {
             _pendenz = new PendenzModel();
         }
+
+        #endregion
+
+        #region PROPERTIES
 
         public PendenzModel Pendenz
         {
@@ -108,5 +118,7 @@ namespace CRMLight
                 RaisePropertyChanged("Erledigt");
             }
         }
+
+        #endregion
     }
 }

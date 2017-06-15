@@ -9,12 +9,22 @@ namespace CRMLight
 {
     public class MitarbeiterViewModel : ObservableObject
     {
+        #region ATTRIBUTS
+
         private MitarbeiterModel _mitarbeiter;
+
+        #endregion
+
+        #region CONSTRUCTORS
 
         public MitarbeiterViewModel()
         {
             _mitarbeiter = new MitarbeiterModel();
         }
+
+        #endregion
+
+        #region PROPERTIES
 
         public MitarbeiterModel Mitarbeiter
         {
@@ -57,5 +67,7 @@ namespace CRMLight
                 RaisePropertyChanged("Bezeichnung");
             }
         }
+
+        #endregion
     }
 }

@@ -7,6 +7,16 @@ namespace CRMLight
 {
     public class BoolToVisibilityConverter : IValueConverter
     {
+
+        /// <summary>
+        /// Konvertierung von Datentyp Bool nach Klasse Visibility. Wird in WPF
+        /// benoetigt, um Visibility zu steuern.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Objekt</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (bool)value ? Visibility.Visible : Visibility.Hidden;

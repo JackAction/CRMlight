@@ -160,25 +160,27 @@ namespace CRMLight
 
         #region Message Handling
 
-        private string _currentMsgFromD;
+        private string _currentMsgFromDb;
         public string CurrentMsgFromDb
         {
             get
             {
-                return _currentMsgFromD;
+                return _currentMsgFromDb;
             }
             set
             {
-                if (_currentMsgFromD == value)
+                if (_currentMsgFromDb == value)
                 {
                     return;
                 }
-                _currentMsgFromD = value;
+                _currentMsgFromDb = value;
                 RaisePropertyChanged("CurrentMsgFromDb");
             }
         }
 
         #endregion
+
+        #region DBLogin and Session Handling
 
         private DBLogin dbLogin = new DBLogin();
 
@@ -188,81 +190,107 @@ namespace CRMLight
 
         }
 
-
-        public MainViewModel()
-        {
-            //LoadMitarbeiterFromRepository();
-            //LoadPendenzenFromRepository();
-        }
+        #endregion
 
         #region Load Data from Repository
 
         private void LoadPendenzenFromRepository(int kontaktID)
         {
             _pendenzen.Clear();
-            var pendenzenFromDB = pendenzenRepository.GetAll(dbLogin.SessionID, kontaktID);
-            int pendenzenCount = pendenzenFromDB.Count;
-            for (int i = 0; i < pendenzenCount; i++)
+
+            try
             {
-                string currentMitarbeiterName = string.Empty;
-                foreach (var item in _mitarbeiter)
+                var pendenzenFromDB = pendenzenRepository.GetAll(dbLogin.SessionID, kontaktID);
+                int pendenzenCount = pendenzenFromDB.Count;
+                for (int i = 0; i < pendenzenCount; i++)
                 {
-                    if (item.ID == pendenzenFromDB[i].MitarbeiterID)
+                    string currentMitarbeiterName = string.Empty;
+                    foreach (var item in _mitarbeiter)
                     {
-                        currentMitarbeiterName = item.Bezeichnung;
+                        if (item.ID == pendenzenFromDB[i].MitarbeiterID)
+                        {
+                            currentMitarbeiterName = item.Bezeichnung;
+                        }
                     }
+                    PendenzViewModel pendenzViewModel = new PendenzViewModel();
+                    pendenzViewModel.Pendenz = pendenzenFromDB[i];
+                    pendenzViewModel.MitarbeiterName = currentMitarbeiterName;
+
+                    _pendenzen.Add(pendenzViewModel);
                 }
-                PendenzViewModel pendenzViewModel = new PendenzViewModel();
-                pendenzViewModel.Pendenz = pendenzenFromDB[i];
-                pendenzViewModel.MitarbeiterName = currentMitarbeiterName;
-
-                _pendenzen.Add(pendenzViewModel);
-
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
             }
         }
 
         private void LoadMitarbeiterFromRepository()
         {
             _mitarbeiter.Clear();
-            var mitarbeiterFromDB = mitarbeiterRepository.GetAll(dbLogin.SessionID);
-            int mitarbeiterCount = mitarbeiterFromDB.Count;
-            for (int i = 0; i < mitarbeiterCount; i++)
+
+            try
             {
-                _mitarbeiter.Add(
-                    new MitarbeiterViewModel
-                    {
-                        Mitarbeiter = mitarbeiterFromDB[i]
-                    });
+                var mitarbeiterFromDB = mitarbeiterRepository.GetAll(dbLogin.SessionID);
+                int mitarbeiterCount = mitarbeiterFromDB.Count;
+                for (int i = 0; i < mitarbeiterCount; i++)
+                {
+                    _mitarbeiter.Add(
+                        new MitarbeiterViewModel
+                        {
+                            Mitarbeiter = mitarbeiterFromDB[i]
+                        });
+                }
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
             }
         }
 
         private void LoadKontakteFromRepository(int filterID)
         {
             _kontakte.Clear();
-            var kotakteFromDB = kontaktRepository.GetAll(dbLogin.SessionID, filterID);
-            int kontakteCount = kotakteFromDB.Count;
-            for (int i = 0; i < kontakteCount; i++)
+
+            try
             {
-                _kontakte.Add(
-                    new KontaktViewModel
-                    {
-                        Kontakt = kotakteFromDB[i]
-                    });
+                var kotakteFromDB = kontaktRepository.GetAll(dbLogin.SessionID, filterID);
+                int kontakteCount = kotakteFromDB.Count;
+                for (int i = 0; i < kontakteCount; i++)
+                {
+                    _kontakte.Add(
+                        new KontaktViewModel
+                        {
+                            Kontakt = kotakteFromDB[i]
+                        });
+                }
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
             }
         }
 
         private void LoadFilterFromRepository()
         {
             _filter.Clear();
-            var filterFromDB = filterRepository.GetAll(dbLogin.SessionID);
-            int filterCount = filterFromDB.Count;
-            for (int i = 0; i < filterCount; i++)
+
+            try
             {
-                _filter.Add(
-                    new FilterViewModel
-                    {
-                        Filter = filterFromDB[i]
-                    });
+                var filterFromDB = filterRepository.GetAll(dbLogin.SessionID);
+                int filterCount = filterFromDB.Count;
+                for (int i = 0; i < filterCount; i++)
+                {
+                    _filter.Add(
+                        new FilterViewModel
+                        {
+                            Filter = filterFromDB[i]
+                        });
+                }
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
             }
         }
 
@@ -275,22 +303,29 @@ namespace CRMLight
 
         void ExecuteLogin()
         {
-            if (dbLogin == null)
+            try
             {
-                return;
-            }
-            dbLogin.Login("uwe.singer", "us8117us");
+                if (dbLogin == null)
+                {
+                    return;
+                }
+                dbLogin.Login("uwe.singer", "us8117us");
 
-            LoadMitarbeiterFromRepository();
-            LoadFilterFromRepository();
-            LoadKontakteFromRepository(0);
-            if (SelectedFilter == null)
-            {
-                SelectedFilter = _filter[0];
+                LoadMitarbeiterFromRepository();
+                LoadFilterFromRepository();
+                LoadKontakteFromRepository(0);
+                if (SelectedFilter == null)
+                {
+                    SelectedFilter = _filter[0];
+                }
+                if (dbLogin.Fehler == 0)
+                {
+                    SelectedTab = 1;
+                }
             }
-            if (dbLogin.Fehler == 0)
+            catch (Exception e)
             {
-                SelectedTab = 1;
+                CurrentMsgFromDb = e.Message;
             }
         }
 
@@ -300,24 +335,6 @@ namespace CRMLight
         }
 
         public ICommand Login { get { return new RelayCommand(ExecuteLogin, CanExecuteLogin); } }
-
-        //void ExecuteShowMitarbeiter()
-        //{
-        //    if (_mitarbeiter == null)
-        //    {
-        //        return;
-        //    }
-        //    LoadMitarbeiterFromRepository();
-        //    LoadFilterFromRepository();
-        //    LoadKontakteFromRepository(0);
-        //}
-
-        //bool CanExecuteShowMitarbeiter()
-        //{
-        //    return true;
-        //}
-
-        //public ICommand ShowMitarbeiter { get { return new RelayCommand(ExecuteShowMitarbeiter, CanExecuteShowMitarbeiter); } }
 
         #endregion
 
@@ -369,24 +386,32 @@ namespace CRMLight
             {
                 return;
             }
-            if (_selectedPendenz.PendenzID != 0)
+
+            try
             {
-                DbReturnStatus result = pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
-
-                if (result.ReturnCode == 0)
+                if (_selectedPendenz.PendenzID != 0)
                 {
-                    _pendenzen.Remove(_selectedPendenz);
-                }
-                else if (result.ReturnCode == 1)
-                {
-                    SelectedTab = 0;
-                }
+                    DbReturnStatus result = pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
 
-                CurrentMsgFromDb = result.ReturnMsg;
+                    if (result.ReturnCode == 0)
+                    {
+                        _pendenzen.Remove(_selectedPendenz);
+                    }
+                    else if (result.ReturnCode == 1)
+                    {
+                        SelectedTab = 0;
+                    }
+
+                    CurrentMsgFromDb = result.ReturnMsg;
+                }
+                _pendenzen.Remove(_selectedPendenz);
+
+                EditModeActive = false;
             }
-            _pendenzen.Remove(_selectedPendenz);
-
-            EditModeActive = false;
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
+            }
         }
 
         bool CanExecuteRemovePendenz()
@@ -402,33 +427,40 @@ namespace CRMLight
 
         void ExecuteSavePendenz()
         {
-            DbReturnStatus result;
+            try
+            {
+                DbReturnStatus result;
 
-            if (_pendenzen == null)
-            {
-                return;
-            }
+                if (_pendenzen == null)
+                {
+                    return;
+                }
 
-            if (_selectedPendenz.PendenzID == 0)
-            {
-                result = pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
-            }
-            else
-            {
-                result = pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
-            }
+                if (_selectedPendenz.PendenzID == 0)
+                {
+                    result = pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
+                }
+                else
+                {
+                    result = pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
+                }
 
-            if (result.ReturnCode == 0)
-            {
-                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
-                EditModeActive = false;
-            }
-            else if (result.ReturnCode == 1)
-            {
-                SelectedTab = 0;
-            }
+                if (result.ReturnCode == 0)
+                {
+                    LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+                    EditModeActive = false;
+                }
+                else if (result.ReturnCode == 1)
+                {
+                    SelectedTab = 0;
+                }
 
-            CurrentMsgFromDb = result.ReturnMsg;
+                CurrentMsgFromDb = result.ReturnMsg;
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
+            }
         }
 
         bool CanExecuteSavePendenz()
@@ -473,8 +505,15 @@ namespace CRMLight
 
         private void ExecuteFinishedPendenz()
         {
-            pendenzenRepository.SetFinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
-            LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+            try
+            {
+                pendenzenRepository.SetFinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
+            }
         }
 
         private bool CanExecuteFinishedPendenz()
@@ -490,8 +529,15 @@ namespace CRMLight
 
         private void ExecuteUnFinishedPendenz()
         {
-            pendenzenRepository.SetUnfinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
-            LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+            try
+            {
+                pendenzenRepository.SetUnfinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+            }
+            catch (ArgumentException e)
+            {
+                CurrentMsgFromDb = e.Message;
+            }
         }
 
         private bool CanExecuteUnFinishedPendenz()
@@ -536,8 +582,6 @@ namespace CRMLight
         #endregion
 
         #endregion
-
-
 
     }
 }

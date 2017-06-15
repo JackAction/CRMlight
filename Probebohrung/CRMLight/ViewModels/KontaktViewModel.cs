@@ -9,12 +9,22 @@ namespace CRMLight
 {
     public class KontaktViewModel : ObservableObject
     {
+        #region ATTRIBUTS
+
         private KontaktModel _kontakt;
+
+        #endregion
+
+        #region COSNTRUCTORS
 
         public KontaktViewModel()
         {
             _kontakt = new KontaktModel();
         }
+
+        #endregion
+
+        #region PROPERTIES
 
         public KontaktModel Kontakt
         {
@@ -33,7 +43,7 @@ namespace CRMLight
                 RaisePropertyChanged("Mobile");
                 RaisePropertyChanged("eMail");
                 RaisePropertyChanged("Interessen");
-                RaisePropertyChanged("Bemerkungen");
+                RaisePropertyChanged("Bemerkung");
                 RaisePropertyChanged("AktionTermin");
                 RaisePropertyChanged("AktionBeschreibung");
                 RaisePropertyChanged("AktionMitarbeiterID");
@@ -150,13 +160,13 @@ namespace CRMLight
             }
         }
 
-        public string Bemerkungen
+        public string Bemerkung
         {
-            get { return _kontakt.Bemerkungen; }
+            get { return _kontakt.Bemerkung; }
             set
             {
-                _kontakt.Bemerkungen = value;
-                RaisePropertyChanged("Bemerkungen");
+                _kontakt.Bemerkung = value;
+                RaisePropertyChanged("Bemerkung");
             }
         }
 
@@ -189,5 +199,7 @@ namespace CRMLight
                 RaisePropertyChanged("AktionMitarbeiterID");
             }
         }
+
+        #endregion
     }
 }

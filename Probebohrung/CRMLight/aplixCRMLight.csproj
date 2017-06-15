@@ -104,7 +104,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="ClassDiagrams\MainDiagram.cd" />
     <None Include="LINQtoSQL.dbml.layout">
       <DependentUpon>LINQtoSQL.dbml</DependentUpon>
     </None>
