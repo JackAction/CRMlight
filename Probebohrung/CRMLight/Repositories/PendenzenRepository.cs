@@ -31,10 +31,10 @@ namespace CRMLight
 
         #region PRIVATE Methods
 
-        private bool WasActionSuccessful(ISingleResult<crm_SetPendenzResult> dataRow, out string returnResult)
+        private bool WasActionSuccessful(crm_SetPendenzResult dataRow, out string returnResult)
         {
-            string dbErrorMsg = (dataRow as crm_SetPendenzResult).Fehlermeldung;
-            int dbErrorNr = (dataRow as crm_SetPendenzResult).Fehler.GetValueOrDefault();
+            string dbErrorMsg = dataRow.Fehlermeldung;
+            int dbErrorNr = dataRow.Fehler.GetValueOrDefault();
             string returnMsg = string.Format(dbErrorMsg + " - Error Code:" + dbErrorNr);
 
             returnResult = returnMsg;
@@ -80,10 +80,10 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result, out _returnMsg);
+                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
                 return returnStatus;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -116,7 +116,7 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result, out _returnMsg);
+                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
                 return returnStatus;
             }
             catch (Exception)
@@ -152,7 +152,7 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result, out _returnMsg);
+                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
                 return returnStatus;
             }
             catch (Exception)
@@ -189,7 +189,7 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result, out _returnMsg);
+                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
                 return returnStatus;
             }
             catch (Exception)
@@ -226,7 +226,7 @@ namespace CRMLight
                     model.Beschreibung
                     );
 
-                bool returnStatus = WasActionSuccessful(result, out _returnMsg);
+                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
                 return returnStatus;
             }
             catch (Exception)
