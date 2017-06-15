@@ -102,7 +102,14 @@ namespace CRMLight
                 }
                 _selectedFilter = value;
                 RaisePropertyChanged("SelectedFilter");
-                LoadKontakteFromRepository(_selectedFilter.ID);
+                if (value != null)
+                {
+                    LoadKontakteFromRepository(_selectedFilter.ID);
+                }
+                else
+                {
+                    LoadKontakteFromRepository(0);
+                }
                 RaisePropertyChanged("Kontakte");
             }
         }
@@ -184,10 +191,33 @@ namespace CRMLight
 
         private DBLogin dbLogin = new DBLogin();
 
-        public string Fehlermeldung
-        {
-            get { return dbLogin.Fehlermeldung; }
 
+        public string LoginErrorMsg
+        {
+            get
+            {
+                return dbLogin.Fehlermeldung;
+            }
+        }
+
+        public string Password { private get; set; }
+
+        private string _username;
+        public string Username
+        {
+            get
+            {
+                return _username;
+            }
+            set
+            {
+                if (_username == value)
+                {
+                    return;
+                }
+                _username = value;
+                RaisePropertyChanged("Username");
+            }
         }
 
         #endregion
@@ -305,25 +335,26 @@ namespace CRMLight
         {
             try
             {
-                if (dbLogin == null)
-                {
-                    return;
-                }
-                dbLogin.Login("uwe.singer", "us8117us");
+                dbLogin.Login(_username, Password);
 
-                LoadMitarbeiterFromRepository();
-                LoadFilterFromRepository();
-                LoadKontakteFromRepository(0);
-                if (SelectedFilter == null)
-                {
-                    SelectedFilter = _filter[0];
-                }
+
                 if (dbLogin.Fehler == 0)
                 {
+                    LoadMitarbeiterFromRepository();
+                    LoadFilterFromRepository();
+                    LoadKontakteFromRepository(0);
+                    if (SelectedFilter == null)
+                    {
+                        SelectedFilter = _filter[0];
+                    }
                     SelectedTab = 1;
                 }
+                else
+                {
+                    RaisePropertyChanged("LoginErrorMsg");
+                }
             }
-            catch (Exception e)
+            catch (ArgumentException e)
             {
                 CurrentMsgFromDb = e.Message;
             }
@@ -453,6 +484,7 @@ namespace CRMLight
                 else if (result.ReturnCode == 1)
                 {
                     SelectedTab = 0;
+                    _editModeActive = false;
                 }
 
                 CurrentMsgFromDb = result.ReturnMsg;

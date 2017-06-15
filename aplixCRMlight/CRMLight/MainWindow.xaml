@@ -164,13 +164,13 @@
                     <Grid>
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="200">
                             <Label Content="Benuztername" FontSize="15" Height="30" Margin="-5,0,0,0"/>
-                            <TextBox x:Name="userName" Text="{Binding UserName}" FontSize="15" Height="30" VerticalContentAlignment="Center"/>
+                            <TextBox x:Name="userName" Text="{Binding Username}" FontSize="15" Height="30" VerticalContentAlignment="Center"/>
 
                             <Label Content="Passwort" FontSize="15" Height="30" Margin="-5,0,0,0"/>
-                            <PasswordBox Password="" FontSize="15" Height="30" VerticalContentAlignment="Center"/>
+                            <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Password="" FontSize="15" Height="30" VerticalContentAlignment="Center"/>
 
                             <Button x:Name="login" Command="{Binding Login}" Content="Login" FontSize="15" Height="30"  Margin="0,10,0,0"/>
-                            <TextBlock Text="{Binding ErrorMessage}" FontSize="15" Height="60" Margin="0,10,0,0"/>
+                            <TextBlock Text="{Binding LoginErrorMsg}" FontSize="15" FontWeight="Bold" VerticalAlignment="Center" Foreground="Red" Height="60" Margin="0,10,0,0"/>
                         </StackPanel>
                     </Grid>
                 </TabItem>

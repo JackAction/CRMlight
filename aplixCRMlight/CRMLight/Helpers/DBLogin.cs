@@ -8,8 +8,15 @@ namespace CRMLight
 {
     public class DBLogin
     {
+        #region ATTRIBUTS
+
         private LINQtoSQLDataContext dataContext;
         private crm_AnmeldenResult dbLogin;
+
+        // Standard String fuer unterbrochene DB Conn. kann bei bedarf geaendert werden
+        private readonly string dbErrorConnMessage = string.Format("Verbindungsfehler zur Datenbank!");
+
+        #endregion
 
         public DBLogin()
         {
@@ -18,7 +25,14 @@ namespace CRMLight
 
         public void Login(string benutzername, string passwort)
         {
-            dbLogin = dataContext.crm_Anmelden(benutzername, passwort).ToList()[0];
+            try
+            {
+                dbLogin = dataContext.crm_Anmelden(benutzername, passwort).ToList()[0];
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException(dbErrorConnMessage);
+            }
         }
 
         public int SessionID
@@ -33,7 +47,14 @@ namespace CRMLight
 
         public string Fehlermeldung
         {
-            get { return dbLogin.Fehlermeldung; }
+            get
+            {
+                if (dbLogin == null)
+                {
+                    return "";
+                }
+                return dbLogin.Fehlermeldung;
+            }
         }
     }
 }
