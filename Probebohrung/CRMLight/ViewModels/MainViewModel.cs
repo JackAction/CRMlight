@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Windows;
 
 
 namespace CRMLight
@@ -61,7 +62,10 @@ namespace CRMLight
                 }
                 _selectedKontakt = value;
                 RaisePropertyChanged("SelectedKontakt");
-                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+                if (_selectedKontakt != null)
+                {
+                    LoadPendenzenFromRepository(_selectedKontakt.KontaktID); 
+                }
             }
         }
 
@@ -390,12 +394,13 @@ namespace CRMLight
 
         private void ExecuteFinishedPendenz()
         {
-
+            pendenzenRepository.SetFinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+            LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
         }
 
         private bool CanExecuteFinishedPendenz()
         {
-            return true;
+            return ((_selectedPendenz == null) ? false : !_editModeActive) && _selectedPendenz.Erledigt == false;
         }
 
         public ICommand FinishPendenz { get { return new RelayCommand(ExecuteFinishedPendenz, CanExecuteFinishedPendenz); } }
@@ -406,12 +411,13 @@ namespace CRMLight
 
         private void ExecuteUnFinishedPendenz()
         {
-
+            pendenzenRepository.SetUnfinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+            LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
         }
 
         private bool CanExecuteUnFinishedPendenz()
         {
-            return true;
+            return ((_selectedPendenz == null) ? false : !_editModeActive) && _selectedPendenz.Erledigt == true;
         }
 
         public ICommand UnfinishPendenz { get { return new RelayCommand(ExecuteUnFinishedPendenz, CanExecuteUnFinishedPendenz); } }

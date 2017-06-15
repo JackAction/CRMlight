@@ -330,7 +330,7 @@
 
 
 
-                        <ListView x:Name="listViewPendenzen" ItemContainerStyle="{StaticResource ItemContStyle}" Height="257" Margin="16,167.667,62.333,-53.333" VerticalAlignment="Top" ItemsSource="{Binding Pendenzen}" SelectedItem="{Binding SelectedPendenz}" IsEnabled="{Binding ListEnabled}" Grid.RowSpan="3" RenderTransformOrigin="1,0.5" BorderBrush="#FF697385" OpacityMask="#FFA46E6E" Foreground="#FF415EAA" Background="#FFEAF1E5" SelectionMode="Single" Grid.Row="3">
+                        <ListView x:Name="listViewPendenzen" ItemContainerStyle="{StaticResource ItemContStyle}" Height="257" Margin="53,26,25,0" VerticalAlignment="Top" ItemsSource="{Binding Pendenzen}" SelectedItem="{Binding SelectedPendenz}" IsEnabled="{Binding ListEnabled}" Grid.RowSpan="4" RenderTransformOrigin="1,0.5" BorderBrush="#FF697385" OpacityMask="#FFA46E6E" Foreground="#FF415EAA" Background="#FFEAF1E5" SelectionMode="Single">
                             <ListView.View>
 
 
