@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
+
 namespace CRMLight
 {
     public class MainViewModel : ObservableObject

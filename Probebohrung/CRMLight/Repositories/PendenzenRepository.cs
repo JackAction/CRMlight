@@ -35,7 +35,7 @@ namespace CRMLight
         {
             string dbErrorMsg = dataRow.Fehlermeldung;
             int dbErrorNr = dataRow.Fehler.GetValueOrDefault();
-            string returnMsg = string.Format(dbErrorMsg + " - Error Code: " + dbErrorNr);
+            string returnMsg = string.Format(dbErrorMsg + " - Status Code: " + dbErrorNr);
 
             //returnResult = returnMsg;
 
@@ -46,7 +46,7 @@ namespace CRMLight
             }
             else
             {
-                returnResult = "Erfolgreich - Error Code: 0";
+                returnResult = "Erfolgreich - Status Code: 0";
                 return true;
             }
         }
