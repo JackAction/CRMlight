@@ -35,16 +35,18 @@ namespace CRMLight
         {
             string dbErrorMsg = dataRow.Fehlermeldung;
             int dbErrorNr = dataRow.Fehler.GetValueOrDefault();
-            string returnMsg = string.Format(dbErrorMsg + " - Error Code:" + dbErrorNr);
+            string returnMsg = string.Format(dbErrorMsg + " - Error Code: " + dbErrorNr);
 
-            returnResult = returnMsg;
+            //returnResult = returnMsg;
 
             if (dbErrorNr != 0)
             {
+                returnResult = returnMsg;
                 return false;
             }
             else
             {
+                returnResult = "Erfolgreich - Error Code: 0";
                 return true;
             }
         }
@@ -65,7 +67,6 @@ namespace CRMLight
         {
             string _modus = "INSERT";
             string _returnMsg = string.Empty;
-            returnMsg = _returnMsg;
             
             try
             {
@@ -81,6 +82,7 @@ namespace CRMLight
                         );
 
                 bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
+                returnMsg = _returnMsg;
                 return returnStatus;
             }
             catch (Exception)
@@ -101,7 +103,6 @@ namespace CRMLight
         {
             string _modus = "UPDATE";
             string _returnMsg = string.Empty;
-            returnMsg = _returnMsg;
 
             try
             {
@@ -117,6 +118,7 @@ namespace CRMLight
                         );
 
                 bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
+                returnMsg = _returnMsg;
                 return returnStatus;
             }
             catch (Exception)
@@ -137,7 +139,6 @@ namespace CRMLight
         {
             string _modus = "DELETE";
             string _returnMsg = string.Empty;
-            returnMsg = _returnMsg;
 
             try
             {
@@ -153,6 +154,7 @@ namespace CRMLight
                         );
 
                 bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
+                returnMsg = _returnMsg;
                 return returnStatus;
             }
             catch (Exception)
@@ -174,7 +176,6 @@ namespace CRMLight
         {
             string _modus = "FINISH";
             string _returnMsg = string.Empty;
-            returnMsg = _returnMsg;
 
             try
             {
@@ -190,6 +191,7 @@ namespace CRMLight
                         );
 
                 bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
+                returnMsg = _returnMsg;
                 return returnStatus;
             }
             catch (Exception)
@@ -211,7 +213,6 @@ namespace CRMLight
         {
             string _modus = "UNFINISH";
             string _returnMsg = string.Empty;
-            returnMsg = _returnMsg;
 
             try
             {
@@ -227,6 +228,7 @@ namespace CRMLight
                     );
 
                 bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
+                returnMsg = _returnMsg;
                 return returnStatus;
             }
             catch (Exception)
