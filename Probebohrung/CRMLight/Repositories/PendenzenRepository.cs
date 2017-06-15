@@ -31,23 +31,24 @@ namespace CRMLight
 
         #region PRIVATE Methods
 
-        private bool WasActionSuccessful(crm_SetPendenzResult dataRow, out string returnResult)
+        private DbReturnStatus WasActionSuccessful(crm_SetPendenzResult dataRow)
         {
-            string dbErrorMsg = dataRow.Fehlermeldung;
-            int dbErrorNr = dataRow.Fehler.GetValueOrDefault();
-            string returnMsg = string.Format(dbErrorMsg + " - Status Code: " + dbErrorNr);
+            string dbStatusMsg = dataRow.Fehlermeldung;
+            int dbStatusNr = dataRow.Fehler.GetValueOrDefault();
+            string returnMsg = string.Format(dbStatusMsg + " - Status Code: " + dbStatusNr);
 
-            //returnResult = returnMsg;
+            DbReturnStatus dbReturnStatus = new DbReturnStatus() {
+                ReturnCode = dbStatusNr, ReturnMsg = dbStatusMsg
+            };
 
-            if (dbErrorNr != 0)
+            if (dbStatusNr != 0)
             {
-                returnResult = returnMsg;
-                return false;
+                return dbReturnStatus;
             }
             else
             {
-                returnResult = "Erfolgreich - Status Code: 0";
-                return true;
+                dbReturnStatus.ReturnMsg = "Erfolgreich - status Code: 0";
+                return dbReturnStatus;
             }
         }
 
@@ -62,8 +63,8 @@ namespace CRMLight
         /// <param name="sessionId"></param>
         /// <param name="kontaktId"></param>
         /// <param name="model"></param>
-        /// <returns>Bool mit Aktionsstatus + DB Msg per OUTPUT Param</returns>
-        public bool Add(int sessionId, int kontaktId, PendenzModel model, out string returnMsg)
+        /// <returns>Objekt DbReturnStatus</returns>
+        public DbReturnStatus Add(int sessionId, int kontaktId, PendenzModel model)
         {
             string _modus = "INSERT";
             string _returnMsg = string.Empty;
@@ -81,9 +82,8 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
-                returnMsg = _returnMsg;
-                return returnStatus;
+                DbReturnStatus returnValue = WasActionSuccessful(result.Single());
+                return returnValue;
             }
             catch (Exception)
             {
@@ -98,8 +98,8 @@ namespace CRMLight
         /// <param name="sessionId"></param>
         /// <param name="kontaktId"></param>
         /// <param name="model"></param>
-        /// <returns>Bool mit Aktionsstatus + DB Msg per OUTPUT Param</returns>
-        public bool Update(int sessionId, int kontaktId, PendenzModel model, out string returnMsg)
+        /// <returns>Objekt DbReturnStatus</returns>
+        public DbReturnStatus Update(int sessionId, int kontaktId, PendenzModel model)
         {
             string _modus = "UPDATE";
             string _returnMsg = string.Empty;
@@ -117,9 +117,8 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
-                returnMsg = _returnMsg;
-                return returnStatus;
+                DbReturnStatus returnValue = WasActionSuccessful(result.Single());
+                return returnValue;
             }
             catch (Exception)
             {
@@ -134,8 +133,8 @@ namespace CRMLight
         /// <param name="sessionId"></param>
         /// <param name="kontaktId"></param>
         /// <param name="model"></param>
-        /// <returns>Bool mit Aktionsstatus + DB Msg per OUTPUT Param</returns>
-        public bool Remove(int sessionId, int kontaktId, PendenzModel model, out string returnMsg)
+        /// <returns>Objekt DbReturnStatus</returns>
+        public DbReturnStatus Remove(int sessionId, int kontaktId, PendenzModel model)
         {
             string _modus = "DELETE";
             string _returnMsg = string.Empty;
@@ -153,9 +152,8 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
-                returnMsg = _returnMsg;
-                return returnStatus;
+                DbReturnStatus returnValue = WasActionSuccessful(result.Single());
+                return returnValue;
             }
             catch (Exception)
             {
@@ -171,8 +169,8 @@ namespace CRMLight
         /// <param name="kontaktId"></param>
         /// <param name="model"></param>
         /// <param name="returnMsg"></param>
-        /// <returns>Bool mit Aktionsstatus + DB Msg per OUTPUT Param</returns>
-        public bool SetFinished(int sessionId, int kontaktId, PendenzModel model, out string returnMsg)
+        /// <returns>Objekt DbReturnStatus</returns>
+        public DbReturnStatus SetFinished(int sessionId, int kontaktId, PendenzModel model)
         {
             string _modus = "FINISH";
             string _returnMsg = string.Empty;
@@ -190,9 +188,8 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
-                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
-                returnMsg = _returnMsg;
-                return returnStatus;
+                DbReturnStatus returnValue = WasActionSuccessful(result.Single());
+                return returnValue;
             }
             catch (Exception)
             {
@@ -208,8 +205,8 @@ namespace CRMLight
         /// <param name="kontaktId"></param>
         /// <param name="model"></param>
         /// <param name="returnMsg"></param>
-        /// <returns>Bool mit Aktionsstatus + DB Msg per OUTPUT Param</returns>
-        public bool SetUnfinished(int sessionId, int kontaktId, PendenzModel model, out string returnMsg)
+        /// <returns>Objekt DbReturnStatus</returns>
+        public DbReturnStatus SetUnfinished(int sessionId, int kontaktId, PendenzModel model)
         {
             string _modus = "UNFINISH";
             string _returnMsg = string.Empty;
@@ -227,9 +224,8 @@ namespace CRMLight
                     model.Beschreibung
                     );
 
-                bool returnStatus = WasActionSuccessful(result.Single(), out _returnMsg);
-                returnMsg = _returnMsg;
-                return returnStatus;
+                DbReturnStatus returnValue = WasActionSuccessful(result.Single());
+                return returnValue;
             }
             catch (Exception)
             {

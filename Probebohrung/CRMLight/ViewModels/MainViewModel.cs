@@ -216,6 +216,8 @@ namespace CRMLight
 
         #region Commands
 
+        #region ICommand-Button Login
+
         void ExecuteLogin()
         {
             if (dbLogin == null)
@@ -229,7 +231,7 @@ namespace CRMLight
             LoadKontakteFromRepository(0);
             if (SelectedFilter == null)
             {
-                SelectedFilter = _filter[0]; 
+                SelectedFilter = _filter[0];
             }
         }
 
@@ -258,6 +260,10 @@ namespace CRMLight
 
         //public ICommand ShowMitarbeiter { get { return new RelayCommand(ExecuteShowMitarbeiter, CanExecuteShowMitarbeiter); } }
 
+        #endregion
+
+        #region ICommand-Button Add-Pendenz
+
         void ExecuteAddPendenz()
         {
             if (_pendenzen == null)
@@ -278,6 +284,10 @@ namespace CRMLight
 
         public ICommand AddPendenz { get { return new RelayCommand(ExecuteAddPendenz, CanExecuteAddPendenz); } }
 
+        #endregion
+
+        #region ICommand-Button Edit-Pendenz
+
         void ExecuteEditPendenz()
         {
             EditModeActive = true;
@@ -290,6 +300,10 @@ namespace CRMLight
 
         public ICommand EditPendenz { get { return new RelayCommand(ExecuteEditPendenz, CanExecuteEditPendenz); } }
 
+        #endregion
+
+        #region ICommand-Button Remove-Pendenz
+
         void ExecuteRemovePendenz()
         {
             if (_pendenzen == null)
@@ -298,7 +312,7 @@ namespace CRMLight
             }
             if (_selectedPendenz.PendenzID != 0)
             {
-                pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage); 
+                pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
             }
             _pendenzen.Remove(_selectedPendenz);
 
@@ -312,6 +326,10 @@ namespace CRMLight
 
         public ICommand RemovePendenz { get { return new RelayCommand(ExecuteRemovePendenz, CanExecuteRemovePendenz); } }
 
+        #endregion
+
+        #region ICommand-Button Save-Pendenz
+
         void ExecuteSavePendenz()
         {
             if (_pendenzen == null)
@@ -321,11 +339,11 @@ namespace CRMLight
 
             if (_selectedPendenz.PendenzID == 0)
             {
-                pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage);
+                pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
             }
             else
             {
-                pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz, out _statusmessage);
+                pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
             }
             EditModeActive = true;
         }
@@ -336,6 +354,10 @@ namespace CRMLight
         }
 
         public ICommand SavePendenz { get { return new RelayCommand(ExecuteSavePendenz, CanExecuteSavePendenz); } }
+
+        #endregion
+
+        #region ICommand-Button Cancel-Pendenz
 
         void ExecuteCancelPendenz()
         {
@@ -361,6 +383,40 @@ namespace CRMLight
         }
 
         public ICommand CancelPendenz { get { return new RelayCommand(ExecuteCancelPendenz, CanExecuteCancelPendenz); } }
+
+        #endregion
+
+        #region ICommand-Button Finisheded-Pendenz
+
+        private void ExecuteFinishedPendenz()
+        {
+
+        }
+
+        private bool CanExecuteFinishedPendenz()
+        {
+            return true;
+        }
+
+        public ICommand FinishPendenz { get { return new RelayCommand(ExecuteFinishedPendenz, CanExecuteFinishedPendenz); } }
+
+        #endregion
+
+        #region ICommand-Button Unfinished-Pendenz
+
+        private void ExecuteUnFinishedPendenz()
+        {
+
+        }
+
+        private bool CanExecuteUnFinishedPendenz()
+        {
+            return true;
+        }
+
+        public ICommand UnfinishPendenz { get { return new RelayCommand(ExecuteUnFinishedPendenz, CanExecuteUnFinishedPendenz); } }
+
+        #endregion
 
         #endregion
 
