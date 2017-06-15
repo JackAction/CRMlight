@@ -68,6 +68,8 @@ namespace CRMLight
             }
         }
 
+        public string MitarbeiterName { get; set; }
+
         public string Titel
         {
             get { return _pendenz.Titel; }

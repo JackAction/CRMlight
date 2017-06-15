@@ -204,11 +204,20 @@ namespace CRMLight
             int pendenzenCount = pendenzenFromDB.Count;
             for (int i = 0; i < pendenzenCount; i++)
             {
-                _pendenzen.Add(
-                    new PendenzViewModel
+                string currentMitarbeiterName = string.Empty;
+                foreach (var item in _mitarbeiter)
+                {
+                    if (item.ID == pendenzenFromDB[i].MitarbeiterID)
                     {
-                        Pendenz = pendenzenFromDB[i]
-                    });
+                        currentMitarbeiterName = item.Bezeichnung;
+                    }
+                }
+                PendenzViewModel pendenzViewModel = new PendenzViewModel();
+                pendenzViewModel.Pendenz = pendenzenFromDB[i];
+                pendenzViewModel.MitarbeiterName = currentMitarbeiterName;
+
+                _pendenzen.Add(pendenzViewModel);
+
             }
         }
 
@@ -278,6 +287,10 @@ namespace CRMLight
             if (SelectedFilter == null)
             {
                 SelectedFilter = _filter[0];
+            }
+            if (dbLogin.Fehler == 0)
+            {
+                SelectedTab = 1;
             }
         }
 
@@ -487,6 +500,38 @@ namespace CRMLight
         }
 
         public ICommand UnfinishPendenz { get { return new RelayCommand(ExecuteUnFinishedPendenz, CanExecuteUnFinishedPendenz); } }
+
+        #endregion
+
+        #region ICommand-Button Navigate To Tab Pendenzen
+
+        private void ExecuteNavigateToPendenzen()
+        {
+            SelectedTab = 2;
+        }
+
+        private bool CanExecuteNavigateToPendenzen()
+        {
+            return ((_selectedKontakt == null) ? false : !_editModeActive);
+        }
+
+        public ICommand NavigateToPendenzen { get { return new RelayCommand(ExecuteNavigateToPendenzen, CanExecuteNavigateToPendenzen); } }
+
+        #endregion
+
+        #region ICommand-Button Navigate To Tab Kontakte
+
+        private void ExecuteNavigateToKontakte()
+        {
+            SelectedTab = 1;
+        }
+
+        private bool CanExecuteNavigateToKontakte()
+        {
+            return true;
+        }
+
+        public ICommand NavigateToKontakte { get { return new RelayCommand(ExecuteNavigateToKontakte, CanExecuteNavigateToKontakte); } }
 
         #endregion
 

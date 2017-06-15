@@ -32,6 +32,7 @@ namespace CRMLight
                 RaisePropertyChanged("Telefon");
                 RaisePropertyChanged("Mobile");
                 RaisePropertyChanged("eMail");
+                RaisePropertyChanged("Interessen");
                 RaisePropertyChanged("Bemerkungen");
                 RaisePropertyChanged("AktionTermin");
                 RaisePropertyChanged("AktionBeschreibung");
@@ -136,6 +137,16 @@ namespace CRMLight
             {
                 _kontakt.eMail = value;
                 RaisePropertyChanged("eMail");
+            }
+        }
+
+        public string Interessen
+        {
+            get { return _kontakt.Interessen; }
+            set
+            {
+                _kontakt.Interessen = value;
+                RaisePropertyChanged("Interessen");
             }
         }
 
