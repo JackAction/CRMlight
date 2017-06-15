@@ -136,10 +136,10 @@
                         <Label Content="Filter" FontSize="14" Height="30" Margin="337,10,567,413"/>
                         <ComboBox x:Name="cbxFilter" 
                           ItemsSource="{Binding Filter}" 
-                          SelectedValue="{Binding SelectedFilter}" 
+                          SelectedItem="{Binding SelectedFilter}"
                           SelectedValuePath="ID" 
-                          DisplayMemberPath="Bezeichnung" 
-                          IsEnabled="{Binding EntryFieldsEnabled}" FontSize="14" Height="30" Margin="418,10,367,413"/>
+                          DisplayMemberPath="Bezeichnung"
+                          FontSize="14" Height="30" Margin="418,10,367,413"/>
                         <ListView ItemsSource="{Binding Kontakte}" SelectedItem="{Binding SelectedKontakt}" IsEnabled="{Binding ListEnabled}" Margin="15,50,15,0" Height="185" VerticalAlignment="Top" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                             <!--         <ListView.Resources>
                              <Style TargetType="{x:Type GridViewColumnHeader}">

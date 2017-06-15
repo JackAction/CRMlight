@@ -83,6 +83,26 @@ namespace CRMLight
             }
         }
 
+        FilterViewModel _selectedFilter;
+        public FilterViewModel SelectedFilter
+        {
+            get
+            {
+                return _selectedFilter;
+            }
+            set
+            {
+                if (_selectedFilter == value)
+                {
+                    return;
+                }
+                _selectedFilter = value;
+                RaisePropertyChanged("SelectedFilter");
+                LoadKontakteFromRepository(_selectedFilter.ID);
+                RaisePropertyChanged("Kontakte");
+            }
+        }
+
         #endregion
 
         #region Visibility management
@@ -148,6 +168,7 @@ namespace CRMLight
 
         private void LoadMitarbeiterFromRepository()
         {
+            _mitarbeiter.Clear();
             var mitarbeiterFromDB = mitarbeiterRepository.GetAll(dbLogin.SessionID);
             int mitarbeiterCount = mitarbeiterFromDB.Count;
             for (int i = 0; i < mitarbeiterCount; i++)
@@ -162,6 +183,7 @@ namespace CRMLight
 
         private void LoadKontakteFromRepository(int filterID)
         {
+            _kontakte.Clear();
             var kotakteFromDB = kontaktRepository.GetAll(dbLogin.SessionID, filterID);
             int kontakteCount = kotakteFromDB.Count;
             for (int i = 0; i < kontakteCount; i++)
@@ -176,6 +198,7 @@ namespace CRMLight
 
         private void LoadFilterFromRepository()
         {
+            _filter.Clear();
             var filterFromDB = filterRepository.GetAll(dbLogin.SessionID);
             int filterCount = filterFromDB.Count;
             for (int i = 0; i < filterCount; i++)
@@ -204,7 +227,10 @@ namespace CRMLight
             LoadMitarbeiterFromRepository();
             LoadFilterFromRepository();
             LoadKontakteFromRepository(0);
-
+            if (SelectedFilter == null)
+            {
+                SelectedFilter = _filter[0]; 
+            }
         }
 
         bool CanExecuteLogin()
