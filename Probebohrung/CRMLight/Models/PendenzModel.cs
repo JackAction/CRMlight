@@ -11,6 +11,8 @@ namespace CRMLight
         public int MitarbeiterID { get; set; }
         public string Titel { get; set; }
         public string Beschreibung { get; set; }
+        public string Quelle { get; set; }
+        public bool Erledigt { get; set; }
 
     }
 }

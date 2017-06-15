@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:CRMLight"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="1000">
+
+    <Window.DataContext>
+        <local:MainViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <Style x:Key="ItemContStyle" TargetType="{x:Type ListViewItem}">
             <!-- Stretch the content so that we can right-align values in the Balance column. -->
@@ -68,8 +72,8 @@
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <Grid ShowGridLines="True" Grid.Row="1">
-					<TabControl x:Name="tabPanel" Grid.ColumnSpan="2" IsHitTestVisible="True" SelectionChanged="tabPanel_SelectionChanged_1">
-								<!--<TabControl.ItemContainerStyle>
+            <TabControl x:Name="tabPanel" Grid.ColumnSpan="2" IsHitTestVisible="True">
+                <!--<TabControl.ItemContainerStyle>
                     <Style TargetType="{x:Type TabItem}">
                         <Setter Property="Visibility" Value="Collapsed" />
                     </Style>
@@ -112,10 +116,10 @@
                     <Grid>
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="200">
                             <Label Content="Benuztername" FontSize="14" Height="30" Margin="-5,0,0,0"/>
-                            <TextBox x:Name="userName" FontSize="14" Height="30" TextWrapping="Wrap"/>
+                            <TextBox x:Name="userName" Text="{Binding UserName}" FontSize="14" Height="30" TextWrapping="Wrap"/>
                             <Label Content="Passwort" FontSize="14" Height="30" Margin="-5,0,0,0"/>
                             <PasswordBox Password="" HorizontalAlignment="Stretch" Height="30"/>
-                            <Button x:Name="login" Content="Login" FontSize="14" Height="30"  Margin="0,10,0,0"/>
+                            <Button x:Name="login" Command="{Binding Login}" Content="Login" FontSize="14" Height="30"  Margin="0,10,0,0"/>
                             <TextBlock Text="{Binding ErrorMessage}" FontSize="14" Height="60" Margin="0,10,0,0"/>
                         </StackPanel>
                     </Grid>
@@ -130,8 +134,13 @@
                         <Label Content="Suchen" FontSize="14" Height="30" Margin="15,10,889,413"/>
                         <TextBox x:Name="search" FontSize="14" Height="30" TextWrapping="Wrap" Margin="97,10,686,413"/>
                         <Label Content="Filter" FontSize="14" Height="30" Margin="337,10,567,413"/>
-                        <ComboBox FontSize="14" Height="30" Margin="418,10,367,413"/>
-                        <ListView Margin="15,50,15,0" Height="185" VerticalAlignment="Top" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Visible">
+                        <ComboBox x:Name="cbxFilter" 
+                          ItemsSource="{Binding Filter}" 
+                          SelectedValue="{Binding SelectedFilter}" 
+                          SelectedValuePath="ID" 
+                          DisplayMemberPath="Bezeichnung" 
+                          IsEnabled="{Binding EntryFieldsEnabled}" FontSize="14" Height="30" Margin="418,10,367,413"/>
+                        <ListView ItemsSource="{Binding Kontakte}" SelectedItem="{Binding SelectedKontakt}" IsEnabled="{Binding ListEnabled}" Margin="15,50,15,0" Height="185" VerticalAlignment="Top" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Visible">
                             <!--         <ListView.Resources>
                              <Style TargetType="{x:Type GridViewColumnHeader}">
                                     <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -140,14 +149,14 @@
                             </ListView.Resources> -->
                             <ListView.View>
                                 <GridView ColumnHeaderContainerStyle="{StaticResource GridHeaderRight}">
-                                    <GridViewColumn Header="Vorname" DisplayMemberBinding="{Binding FirstName}" />
-                                    <GridViewColumn Header="Nachname" DisplayMemberBinding="{Binding LastName}" />
-                                    <GridViewColumn Header="Firma" DisplayMemberBinding="{Binding Company}" />
+                                    <GridViewColumn Header="Vorname" DisplayMemberBinding="{Binding Vorname}" />
+                                    <GridViewColumn Header="Nachname" DisplayMemberBinding="{Binding Name}" />
+                                    <GridViewColumn Header="Firma" DisplayMemberBinding="{Binding Firma}" />
                                     <GridViewColumn Header="PLZ" Width="60" DisplayMemberBinding="{Binding PLZ}" />
-                                    <GridViewColumn Header="Ort" DisplayMemberBinding="{Binding City}" />
-                                    <GridViewColumn Header="Action Datum" DisplayMemberBinding="{Binding ActionDate}" />
-                                    <GridViewColumn Header="Action Beschreibung" DisplayMemberBinding="{Binding ActionDescription}" />
-                                    <GridViewColumn Header="Action Mitarbeiter" DisplayMemberBinding="{Binding ActionEmployee}" />
+                                    <GridViewColumn Header="Ort" DisplayMemberBinding="{Binding Ort}" />
+                                    <GridViewColumn Header="Action Datum" DisplayMemberBinding="{Binding AktionTermin}" />
+                                    <GridViewColumn Header="Action Beschreibung" DisplayMemberBinding="{Binding AktionBeschreibung}" />
+                                    <GridViewColumn Header="Action Mitarbeiter" DisplayMemberBinding="{Binding AktionMitarbeiterID}" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -189,12 +198,12 @@
                         </Grid.RowDefinitions>
 
                         <Label  Content="Titel" Width="60" FontSize="14" HorizontalAlignment="Left" Margin="53,244,0,67" Grid.Row="3"/>
-                        <TextBox Name="PendenzTitel" Margin="160,244,25,0" Height="25" VerticalAlignment="Top" Grid.Row="3" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Titel}" ></TextBox>
+                        <TextBox Name="PendenzTitel" Margin="160,244,25,0" Height="25" VerticalAlignment="Top" Grid.Row="3" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Titel}" IsEnabled="{Binding EntryFieldsEnabled}"></TextBox>
                         <Label Name="PendenzBeschreibung" Content="Beschreibung" Height="30" Width="107" FontSize="14" HorizontalAlignment="Left" Margin="53,0,0,20" VerticalAlignment="Bottom" RenderTransformOrigin="0.916,-3.8" Grid.Row="3"/>
-                        <TextBox Margin="160,0,25,12" Height="100" VerticalAlignment="Bottom" Grid.Row="3" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Beschreibung}" Grid.RowSpan="2"/>
-                        <TextBox Name="Quelle" Margin="356,0,234,120" Height="23" VerticalAlignment="Bottom" Grid.Row="5" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Quelle}"/>
-                        <ComboBox x:Name="comboBox" HorizontalAlignment="Right" Margin="0,0,25,120" VerticalAlignment="Bottom" Width="142" Grid.Row="5" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Mitarbeiter}" Height="22"/>
-                        <DatePicker HorizontalAlignment="Left" Margin="160,0,0,120" VerticalAlignment="Bottom" RenderTransformOrigin="0.412,0.542" Grid.Row="5" DisplayDate="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Termin}" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Termin}" Height="24" Width="102" />
+                        <TextBox Margin="160,0,25,12" Height="100" VerticalAlignment="Bottom" Grid.Row="3" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Beschreibung}" IsEnabled="{Binding EntryFieldsEnabled}" Grid.RowSpan="2"/>
+                        <TextBox Name="Quelle" Margin="356,0,234,120" Height="23" VerticalAlignment="Bottom" Grid.Row="5" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Quelle}" IsEnabled="{Binding EntryFieldsEnabled}"/>
+                        <ComboBox x:Name="comboBox" HorizontalAlignment="Right" Margin="0,0,25,120" VerticalAlignment="Bottom" Width="142" Grid.Row="5" ItemsSource="{Binding Mitarbeiter}" SelectedValue="{Binding ElementName=dataGridPendenz, Path=SelectedItem.MitarbeiterID, Mode=TwoWay}" SelectedValuePath="ID" DisplayMemberPath="Bezeichnung" IsEnabled="{Binding EntryFieldsEnabled}" Height="22"/>
+                        <DatePicker HorizontalAlignment="Left" Margin="160,0,0,120" VerticalAlignment="Bottom" RenderTransformOrigin="0.412,0.542" Grid.Row="5" DisplayDate="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Termin}" Text="{Binding ElementName=listViewPendenzen, Path=SelectedItem.Termin}" IsEnabled="{Binding EntryFieldsEnabled}" Height="24" Width="102" />
                         <Label x:Name="lb_Mitarbeiter" Content="Mitarbeiter" Height="30" Width="107" FontSize="14" HorizontalAlignment="Left" Margin="565,0,0,142" VerticalAlignment="Bottom" RenderTransformOrigin="0.916,-3.8" Grid.Row="5"/>
                         <Label x:Name="lb_Quelle" Content="Quelle" Height="30" Width="107" FontSize="14" HorizontalAlignment="Left" Margin="356,0,0,143" VerticalAlignment="Bottom" RenderTransformOrigin="0.916,-3.8" Grid.Row="5"/>
 
@@ -213,7 +222,7 @@
                                 <ColumnDefinition Width="100*"  />
                                 <ColumnDefinition Width="100*" />
                             </Grid.ColumnDefinitions>
-                            <Button x:Name="Löschen" Grid.Column="5" Content="" Margin="11,-451,91,451" Cursor="" Grid.ColumnSpan="2" ToolTip="Löschen"  >
+                            <Button x:Name="Löschen" Command="{Binding RemovePendenz}" Grid.Column="5" Content="" Margin="11,-451,91,451" Cursor="" Grid.ColumnSpan="2" ToolTip="Löschen"  >
                                 <Button.Background>
                                     <ImageBrush ImageSource="icons8-Empty Trash-50.png" Stretch="None"/>
                                 </Button.Background>
@@ -227,7 +236,7 @@
                                     </LinearGradientBrush>
                                 </Button.BorderBrush>
                             </Button>
-                            <Button x:Name="Hinzufügen" Content="" Margin="0,-451,0,451" ToolTip="Neue Pendenz" HorizontalAlignment="Left" Width="98" Grid.ColumnSpan="4" Grid.Column="2" >
+                            <Button x:Name="Hinzufügen" Command="{Binding AddPendenz}" Content="" Margin="0,-451,0,451" ToolTip="Neue Pendenz" HorizontalAlignment="Left" Width="98" Grid.ColumnSpan="4" Grid.Column="2" >
                                 <Button.OpacityMask>
                                     <ImageBrush Stretch="None" ImageSource="icons8-Add-50.png"/>
                                 </Button.OpacityMask>
@@ -241,7 +250,7 @@
                                     </LinearGradientBrush>
                                 </Button.BorderBrush>
                             </Button>
-                            <Button x:Name="Bearbeiten" Grid.Column="6" Content="" Margin="34,-443,15,460" ToolTip="Bearbeiten"  >
+                            <Button x:Name="Bearbeiten" Command="{Binding EditPendenz}" Grid.Column="6" Content="" Margin="34,-443,15,460" ToolTip="Bearbeiten"  >
                                 <Button.OpacityMask>
                                     <ImageBrush ImageSource="icons8-Edit-26.png"/>
                                 </Button.OpacityMask>
@@ -255,7 +264,7 @@
                                     </LinearGradientBrush>
                                 </Button.BorderBrush>
                             </Button>
-                            <Button x:Name="Verwerfen" Grid.Column="8" Content="" Margin="10,-452,92,452" Grid.ColumnSpan="3" ToolTip="Abbrechen">
+                            <Button x:Name="Verwerfen" Command="{Binding CancelPendenz}" Grid.Column="8" Content="" Margin="10,-452,92,452" Grid.ColumnSpan="3" ToolTip="Abbrechen">
                                 <Button.OpacityMask>
                                     <ImageBrush ImageSource="icons8-File Delete Filled-50.png" Stretch="None"/>
                                 </Button.OpacityMask>
@@ -269,7 +278,7 @@
                                     </LinearGradientBrush>
                                 </Button.BorderBrush>
                             </Button>
-                            <Button x:Name="Speichern" Grid.Column="7" Content="" Margin="25,-456,3,449" ToolTip="Speichern" Cursor="None" RenderTransformOrigin="0.5,0.5" BorderBrush="White" Height="68" VerticalAlignment="Bottom" IsHitTestVisible="True" IsDefault="True" IsCancel="True">
+                            <Button x:Name="Speichern" Command="{Binding SavePendenz}" Grid.Column="7" Content="" Margin="25,-456,3,449" ToolTip="Speichern" Cursor="None" RenderTransformOrigin="0.5,0.5" BorderBrush="White" Height="68" VerticalAlignment="Bottom" IsHitTestVisible="True" IsDefault="True" IsCancel="True">
                                 <Button.OpacityMask>
                                     <ImageBrush ImageSource="icons8-Save as-50.png" Stretch="None"/>
                                 </Button.OpacityMask>
@@ -288,7 +297,7 @@
                                     </TransformGroup>
                                 </Button.RenderTransform>
                             </Button>
-                            <Button x:Name="Finish" Grid.Column="11" Content="" Margin="1,-447,1,447" ToolTip="Pendenz erledigt">
+                            <Button x:Name="Finish" Command="{Binding FinishPendenz}" Grid.Column="11" Content="" Margin="1,-447,1,447" ToolTip="Pendenz erledigt">
                                 <Button.OpacityMask>
                                     <ImageBrush ImageSource="icons8-Double Tick Filled-50.png" Stretch="None"/>
                                 </Button.OpacityMask>
@@ -302,7 +311,7 @@
                                     </LinearGradientBrush>
                                 </Button.BorderBrush>
                             </Button>
-                            <Button x:Name="Unfinish" Grid.Column="10" Content="" Margin="18,-449,84,449" ToolTip="Pendenz offen" Grid.ColumnSpan="2" >
+                            <Button x:Name="Unfinish" Command="{Binding UnfinishPendenz}" Grid.Column="10" Content="" Margin="18,-449,84,449" ToolTip="Pendenz offen" Grid.ColumnSpan="2" >
                                 <Button.OpacityMask>
                                     <ImageBrush Stretch="None" ImageSource="icons8-Delete Filled-50.png"/>
                                 </Button.OpacityMask>
@@ -321,7 +330,7 @@
 
 
 
-                        <ListView x:Name="listViewPendenzen" ItemContainerStyle="{StaticResource ItemContStyle}" Height="257" Margin="53,84,25,0" VerticalAlignment="Top" ItemsSource="{Binding}" Grid.RowSpan="4" RenderTransformOrigin="1,0.5" BorderBrush="#FF697385" OpacityMask="#FFA46E6E" Foreground="#FF415EAA" Background="#FFEAF1E5" SelectionMode="Single" SelectionChanged="listViewPendenzen_SelectionChanged">
+                        <ListView x:Name="listViewPendenzen" ItemContainerStyle="{StaticResource ItemContStyle}" Height="257" Margin="16,167.667,62.333,-53.333" VerticalAlignment="Top" ItemsSource="{Binding Pendenzen}" SelectedItem="{Binding SelectedPendenz}" IsEnabled="{Binding ListEnabled}" Grid.RowSpan="3" RenderTransformOrigin="1,0.5" BorderBrush="#FF697385" OpacityMask="#FFA46E6E" Foreground="#FF415EAA" Background="#FFEAF1E5" SelectionMode="Single" Grid.Row="3">
                             <ListView.View>
 
 

@@ -116,6 +116,13 @@ namespace CRMLight
 
         private DBLogin dbLogin = new DBLogin();
 
+        public string Fehlermeldung
+        {
+            get { return dbLogin.Fehlermeldung; }
+
+        }
+
+
         public MainViewModel()
         {
             //LoadMitarbeiterFromRepository();
@@ -194,6 +201,10 @@ namespace CRMLight
             }
             dbLogin.Login("uwe.singer", "us8117us");
 
+            LoadMitarbeiterFromRepository();
+            LoadFilterFromRepository();
+            LoadKontakteFromRepository(0);
+
         }
 
         bool CanExecuteLogin()
@@ -203,23 +214,23 @@ namespace CRMLight
 
         public ICommand Login { get { return new RelayCommand(ExecuteLogin, CanExecuteLogin); } }
 
-        void ExecuteShowMitarbeiter()
-        {
-            if (_mitarbeiter == null)
-            {
-                return;
-            }
-            LoadMitarbeiterFromRepository();
-            LoadFilterFromRepository();
-            LoadKontakteFromRepository(0);
-        }
+        //void ExecuteShowMitarbeiter()
+        //{
+        //    if (_mitarbeiter == null)
+        //    {
+        //        return;
+        //    }
+        //    LoadMitarbeiterFromRepository();
+        //    LoadFilterFromRepository();
+        //    LoadKontakteFromRepository(0);
+        //}
 
-        bool CanExecuteShowMitarbeiter()
-        {
-            return true;
-        }
+        //bool CanExecuteShowMitarbeiter()
+        //{
+        //    return true;
+        //}
 
-        public ICommand ShowMitarbeiter { get { return new RelayCommand(ExecuteShowMitarbeiter, CanExecuteShowMitarbeiter); } }
+        //public ICommand ShowMitarbeiter { get { return new RelayCommand(ExecuteShowMitarbeiter, CanExecuteShowMitarbeiter); } }
 
         void ExecuteAddPendenz()
         {

@@ -23,6 +23,8 @@ namespace CRMLight
                 RaisePropertyChanged("Termin");
                 RaisePropertyChanged("MitarbeiterID");
                 RaisePropertyChanged("Beschreibung");
+                RaisePropertyChanged("Quelle");
+                RaisePropertyChanged("Erledigt");
             }
         }
 
@@ -83,6 +85,25 @@ namespace CRMLight
             {
                 _pendenz.Beschreibung = value;
                 RaisePropertyChanged("Beschreibung");
+            }
+        }
+        public string Quelle
+        {
+            get { return _pendenz.Quelle; }
+            set
+            {
+                _pendenz.Quelle = value;
+                RaisePropertyChanged("Quelle");
+            }
+        }
+
+        public bool Erledigt
+        {
+            get { return _pendenz.Erledigt; }
+            set
+            {
+                _pendenz.Erledigt = value;
+                RaisePropertyChanged("Erledigt");
             }
         }
     }
