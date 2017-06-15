@@ -118,6 +118,8 @@ namespace CRMLight
 
         #region Visibility management
 
+        // Nachfolgend die Steuer-Funktionalitaeten fuer diverse Komponenten
+        // (Listen, Buttons etc.) im Edit-Mode
         bool _editModeActive = false;
 
         public bool EditModeActive
@@ -167,6 +169,7 @@ namespace CRMLight
 
         #region Message Handling
 
+        // Steuert die Kontrolle fuer das Nachrichten-Anzeige im Message Feld im GUI
         private string _currentMsgFromDb;
         public string CurrentMsgFromDb
         {
@@ -190,7 +193,6 @@ namespace CRMLight
         #region DBLogin and Session Handling
 
         private DBLogin dbLogin = new DBLogin();
-
 
         public string LoginErrorMsg
         {
@@ -224,6 +226,7 @@ namespace CRMLight
 
         #region Load Data from Repository
 
+        // Laden der Liste mit den Pendenzen
         private void LoadPendenzenFromRepository(int kontaktID)
         {
             _pendenzen.Clear();
@@ -242,6 +245,9 @@ namespace CRMLight
                             currentMitarbeiterName = item.Bezeichnung;
                         }
                     }
+                    // Mitarbeiter Name ist nur im ViewModel vorhanden (nicht im Model).
+                    // Code unten dient dem Suchen des Mitarbeiters in MitarbeiterViewModel
+                    // und Setzen ins PendenzViewModel zwecks beserer Benutzerfreundlichkeit
                     PendenzViewModel pendenzViewModel = new PendenzViewModel();
                     pendenzViewModel.Pendenz = pendenzenFromDB[i];
                     pendenzViewModel.MitarbeiterName = currentMitarbeiterName;
@@ -255,6 +261,7 @@ namespace CRMLight
             }
         }
 
+        // Laden der Liste mit den Mitarbeitern
         private void LoadMitarbeiterFromRepository()
         {
             _mitarbeiter.Clear();
@@ -278,6 +285,7 @@ namespace CRMLight
             }
         }
 
+        // Laden der Liste mit den Kontakten
         private void LoadKontakteFromRepository(int filterID)
         {
             _kontakte.Clear();
@@ -301,6 +309,7 @@ namespace CRMLight
             }
         }
 
+        // Laden der Liste mit den Filtern
         private void LoadFilterFromRepository()
         {
             _filter.Clear();
@@ -377,7 +386,7 @@ namespace CRMLight
             {
                 return;
             }
-            _pendenzen.Add(new PendenzViewModel());
+            _pendenzen.Add(new PendenzViewModel() { Termin = DateTime.Now });
 
 
             SelectedPendenz = _pendenzen.Last();
@@ -435,7 +444,10 @@ namespace CRMLight
 
                     CurrentMsgFromDb = result.ReturnMsg;
                 }
-                _pendenzen.Remove(_selectedPendenz);
+                else if (_selectedPendenz.PendenzID == 0)
+                {
+                    _pendenzen.Remove(_selectedPendenz);
+                }
 
                 EditModeActive = false;
             }
@@ -590,7 +602,7 @@ namespace CRMLight
 
         private bool CanExecuteNavigateToPendenzen()
         {
-            return ((_selectedKontakt == null) ? false : !_editModeActive);
+            return ((_selectedKontakt == null) ? false : true);
         }
 
         public ICommand NavigateToPendenzen { get { return new RelayCommand(ExecuteNavigateToPendenzen, CanExecuteNavigateToPendenzen); } }
@@ -606,7 +618,7 @@ namespace CRMLight
 
         private bool CanExecuteNavigateToKontakte()
         {
-            return true;
+            return !_editModeActive;
         }
 
         public ICommand NavigateToKontakte { get { return new RelayCommand(ExecuteNavigateToKontakte, CanExecuteNavigateToKontakte); } }

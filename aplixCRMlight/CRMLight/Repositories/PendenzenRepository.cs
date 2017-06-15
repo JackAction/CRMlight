@@ -31,7 +31,9 @@ namespace CRMLight
 
         #region PRIVATE Methods
 
-        // Diese Methode nimmt einen einzelnen Datensatz
+        // Diese Methode nimmt einen einzelnen Datensatz der SQL Abfrage entgegen und
+        // Holt den Status-Code und Message aus dem ROW. Dieser wird weitergereicht
+        // und am Ausfuehrungsort zur Statusermittlung genutzt werden
         private DbReturnStatus WasActionSuccessful(crm_SetPendenzResult dataRow)
         {
             string dbStatusMsg = dataRow.Fehlermeldung;
@@ -39,7 +41,8 @@ namespace CRMLight
             string returnMsg = string.Format(dbStatusMsg + " - Status Code: " + dbStatusNr);
 
             DbReturnStatus dbReturnStatus = new DbReturnStatus() {
-                ReturnCode = dbStatusNr, ReturnMsg = dbStatusMsg
+                ReturnCode = dbStatusNr,
+                ReturnMsg = returnMsg
             };
 
             if (dbStatusNr != 0)
@@ -240,6 +243,13 @@ namespace CRMLight
 
         #region Loader Methods
 
+        /// <summary>
+        /// Diese Liste nimmt eine SessionID und eine KontaktID auf und gibt eine Liste
+        /// mit allen fuer den Kontakt gebundenen Pendenzen zurueck
+        /// </summary>
+        /// <param name="sessionID"></param>
+        /// <param name="kontaktID"></param>
+        /// <returns>Liste vom Typ RendenzModel</returns>
         public List<PendenzModel> GetAll(int sessionID, int kontaktID)
         {
             try

@@ -18,6 +18,8 @@ namespace CRMLight
 
         #endregion
 
+        #region PUBLIC Methods
+
         public DBLogin()
         {
             dataContext = new LINQtoSQLDataContext();
@@ -56,5 +58,7 @@ namespace CRMLight
                 return dbLogin.Fehlermeldung;
             }
         }
+
+        #endregion
     }
 }
