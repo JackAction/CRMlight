@@ -82,10 +82,12 @@ namespace CRMLight
                         model.Beschreibung
                         );
 
+
+
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -120,7 +122,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -155,7 +157,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -191,7 +193,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }
@@ -227,7 +229,7 @@ namespace CRMLight
                 DbReturnStatus returnValue = WasActionSuccessful(result.Single());
                 return returnValue;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 throw new ArgumentException(dbErrorConnMessage);
             }

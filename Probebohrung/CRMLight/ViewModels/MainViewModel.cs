@@ -136,7 +136,49 @@ namespace CRMLight
 
         #endregion
 
-        string _statusmessage;
+        #region TabChange
+
+        int _selectedTab;
+        public int SelectedTab
+        {
+            get
+            {
+                return _selectedTab;
+            }
+            set
+            {
+                if (_selectedTab == value)
+                {
+                    return;
+                }
+                _selectedTab = value;
+                RaisePropertyChanged("SelectedTab");
+            }
+        }
+
+        #endregion
+
+        #region Message Handling
+
+        private string _currentMsgFromD;
+        public string CurrentMsgFromDb
+        {
+            get
+            {
+                return _currentMsgFromD;
+            }
+            set
+            {
+                if (_currentMsgFromD == value)
+                {
+                    return;
+                }
+                _currentMsgFromD = value;
+                RaisePropertyChanged("CurrentMsgFromDb");
+            }
+        }
+
+        #endregion
 
         private DBLogin dbLogin = new DBLogin();
 
@@ -316,7 +358,18 @@ namespace CRMLight
             }
             if (_selectedPendenz.PendenzID != 0)
             {
-                pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
+                DbReturnStatus result = pendenzenRepository.Remove(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
+
+                if (result.ReturnCode == 0)
+                {
+                    _pendenzen.Remove(_selectedPendenz);
+                }
+                else if (result.ReturnCode == 1)
+                {
+                    SelectedTab = 0;
+                }
+
+                CurrentMsgFromDb = result.ReturnMsg;
             }
             _pendenzen.Remove(_selectedPendenz);
 
@@ -336,6 +389,8 @@ namespace CRMLight
 
         void ExecuteSavePendenz()
         {
+            DbReturnStatus result;
+
             if (_pendenzen == null)
             {
                 return;
@@ -343,13 +398,24 @@ namespace CRMLight
 
             if (_selectedPendenz.PendenzID == 0)
             {
-                pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
+                result = pendenzenRepository.Add(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
             }
             else
             {
-                pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
+                result = pendenzenRepository.Update(dbLogin.SessionID, _selectedKontakt.KontaktID, _selectedPendenz.Pendenz);
             }
-            EditModeActive = true;
+
+            if (result.ReturnCode == 0)
+            {
+                LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+                EditModeActive = false;
+            }
+            else if (result.ReturnCode == 1)
+            {
+                SelectedTab = 0;
+            }
+
+            CurrentMsgFromDb = result.ReturnMsg;
         }
 
         bool CanExecuteSavePendenz()
