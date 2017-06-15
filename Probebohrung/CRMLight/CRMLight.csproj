@@ -64,12 +64,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="MainWindow_Testing.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\BoolToVisibilityConverter.cs" />
     <Compile Include="Helpers\DBLogin.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\FilterModel.cs" />
     <Compile Include="Models\KontaktModel.cs" />
     <Compile Include="Models\MitarbeiterModel.cs" />
@@ -89,8 +96,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LINQtoSQL.dbml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="MainWindow_Testing.xaml.cs">
+      <DependentUpon>MainWindow_Testing.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -139,6 +146,30 @@
       <Project>{b6fc142c-ca9b-46fa-ac14-b1aa5cf3473e}</Project>
       <Name>MVVM_Framework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Add-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Delete Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Double Tick Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Edit-26.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Empty Trash-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Esc-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-File Delete Filled-50.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="icons8-Save as-50.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
