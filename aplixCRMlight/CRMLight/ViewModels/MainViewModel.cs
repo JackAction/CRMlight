@@ -1,12 +1,9 @@
 ﻿using MVVM_Framework;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using System.Windows;
+
 
 
 namespace CRMLight
@@ -551,8 +548,11 @@ namespace CRMLight
         {
             try
             {
-                pendenzenRepository.SetFinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+                DbReturnStatus result = pendenzenRepository.SetFinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+                CurrentMsgFromDb = result.ReturnMsg;
                 LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
+
+                
             }
             catch (ArgumentException e)
             {
@@ -575,7 +575,8 @@ namespace CRMLight
         {
             try
             {
-                pendenzenRepository.SetUnfinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+                DbReturnStatus result = pendenzenRepository.SetUnfinished(dbLogin.SessionID, _selectedKontakt.KontaktID, SelectedPendenz.Pendenz);
+                CurrentMsgFromDb = result.ReturnMsg;
                 LoadPendenzenFromRepository(_selectedKontakt.KontaktID);
             }
             catch (ArgumentException e)
@@ -598,6 +599,7 @@ namespace CRMLight
         private void ExecuteNavigateToPendenzen()
         {
             SelectedTab = 2;
+            CurrentMsgFromDb = "";
         }
 
         private bool CanExecuteNavigateToPendenzen()
@@ -614,6 +616,7 @@ namespace CRMLight
         private void ExecuteNavigateToKontakte()
         {
             SelectedTab = 1;
+            CurrentMsgFromDb = "";
         }
 
         private bool CanExecuteNavigateToKontakte()

@@ -22,6 +22,15 @@ namespace CRMLight
             return (bool)value ? Visibility.Visible : Visibility.Hidden;
         }
 
+        /// <summary>
+        /// Dient der Rueckkonvertierung von Klasse Visiblity zu Bool. Wird
+        /// momentan nicht benoetigt. Kann bei Bedarf ausprogrammiert werden
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Object</returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
